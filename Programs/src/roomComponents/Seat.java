@@ -1,4 +1,4 @@
-package roomComponent;
+package roomComponents;
 
 public class Seat {
     private boolean available;

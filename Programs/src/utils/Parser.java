@@ -1,4 +1,4 @@
-package utils;
+package src.utils;
 
 import src.problems.AbstractProblem;
 import src.roomComponents.Row;
@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class Parser {
 
-    public static AbstractProblem createProblem(String filePath){
+    public static AbstractProblem createProblem(String filePath) {
         //accéder au fichier
 
         try {
-            URL path = Foo.class.getResource(".../Data/"+FilePath);
+            URL path = Foo.class.getResource(".../Data/" + FilePath);
             File file = new File(path.getFile());
             Scanner myReader = new Scanner(file);
 

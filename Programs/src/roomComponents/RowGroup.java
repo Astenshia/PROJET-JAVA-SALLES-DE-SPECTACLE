@@ -1,13 +1,15 @@
-package roomComponents;
+package src.roomComponents;
 
 import java.util.List;
 
 public class RowGroup {
     private List<Row> rows;
-    public RowGroup(List<Row> rows){
+
+    public RowGroup(List<Row> rows) {
         this.rows = rows;
     }
-    public int getNbRows(){
+
+    public int getNbRows() {
         return rows.size();
     }
 }

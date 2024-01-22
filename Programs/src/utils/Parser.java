@@ -1,7 +1,7 @@
 package utils;
 
-import problems.AbstractProblem;
-import roomComponents.Row;
+import src.problems.AbstractProblem;
+import src.roomComponents.Row;
 
 import java.io.*;
 import java.util.ArrayList;

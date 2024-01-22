@@ -1,8 +1,10 @@
-package interfaces;
+package src.interfaces;
 
-import problems.*;
+import src.problems.Solution;
+import src.problems.AbstractProblem;
 
 public interface Algo {
     public long getRunTime();
+
     public Solution execute(AbstractProblem problem);
 }

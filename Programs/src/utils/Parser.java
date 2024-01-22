@@ -1,4 +1,4 @@
-package utiliatires;
+package utils;
 
 public class Parser {
 }

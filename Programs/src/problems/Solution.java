@@ -1,4 +1,4 @@
-package problems;
+package src.problems;
 
 public class Solution {
 }

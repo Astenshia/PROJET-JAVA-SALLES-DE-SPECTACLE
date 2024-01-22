@@ -1,4 +1,4 @@
-package roomComponents;
+package src.roomComponents;
 
 import java.util.List;
 

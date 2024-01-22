@@ -1,4 +1,4 @@
-package persons;
+package src.persons;
 
 import java.util.List;
 

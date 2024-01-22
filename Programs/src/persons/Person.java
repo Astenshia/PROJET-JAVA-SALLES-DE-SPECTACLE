@@ -1,6 +1,6 @@
-package persons;
+package src.persons;
 
-import roomComponents.Seat;
+import src.roomComponents.Seat;
 
 public class Person {
     private Seat seat;

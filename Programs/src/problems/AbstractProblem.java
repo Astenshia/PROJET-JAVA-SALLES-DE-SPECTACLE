@@ -1,6 +1,6 @@
-package problems;
+package src.problems;
 
-import persons.PersonsGroup;
+import src.persons.PersonsGroup;
 
 import java.util.List;
 

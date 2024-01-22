@@ -1,8 +1,9 @@
 package main;
 
-import interfaces.Algo;
-import problems.AbstractProblem;
-import problems.Solution;
+import src.interfaces.Algo;
+import src.problems.AbstractProblem;
+import src.problems.Solution;
+import java.util.List;
 
 public class Runner {
     private Algo algo;

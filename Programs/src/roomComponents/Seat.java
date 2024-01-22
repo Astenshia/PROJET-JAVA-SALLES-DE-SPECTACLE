@@ -1,6 +1,6 @@
-package roomComponents;
+package src.roomComponents;
 
-import persons.Person;
+import src.persons.Person;
 
 public class Seat {
     private boolean outOfOrder;

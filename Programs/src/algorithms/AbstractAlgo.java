@@ -1,6 +1,6 @@
-package algorithms;
+package src.algorithms;
 
-import interfaces.Algo;
+import src.interfaces.Algo;
 
 public abstract class AbstractAlgo implements Algo {
     private String name;

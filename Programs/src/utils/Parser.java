@@ -10,8 +10,6 @@ import src.roomComponents.RowGroup;
 import src.roomComponents.Seat;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 public class Parser {
@@ -90,7 +88,7 @@ public class Parser {
         //on crée la liste qu'on va return
         List<PersonsGroup> reservations = new ArrayList<>();
 
-        //on divise toutes les reservations en string[] contenant le nombre de personne par reservation dans une case du tableau
+        //on divise toutes les reservations en string[] contenant le nombre de personnes par reservation dans une case du tableau
         String[] specsTabString = SpecString.split(" ");
         int nbRes = Integer.parseInt(nbResString);
 
@@ -113,7 +111,7 @@ public class Parser {
         String groupString = "";
         String rowGroupString = "";
         List<String> placesDistanceString = new ArrayList<>();
-        // ListIterator<String> pds = placesDistanceString.listIterator(); // c'est mieux que get() mais j'arrive pas à le faire fonctionner
+        // ListIterator<String> pds = placesDistanceString.listIterator(); // c'est mieux que get() mais je n'arrive pas à le faire fonctionner
 
         //lecture de salleXX.txt
         try {

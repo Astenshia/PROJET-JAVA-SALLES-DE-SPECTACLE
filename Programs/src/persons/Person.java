@@ -5,8 +5,7 @@ import src.roomComponents.Seat;
 public class Person {
     private Seat seat;
 
-    public Person(Seat s) {
-        seat = s;
+    public Person() {
     }
 
     public void setSeat(Seat s) {

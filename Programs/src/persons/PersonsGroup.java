@@ -13,4 +13,9 @@ public class PersonsGroup {
         return persons.size();
     }
 
+    @Override
+    public String toString() {
+        return String.valueOf(persons.size());
+
+    }
 }

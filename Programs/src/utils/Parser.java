@@ -1,82 +1,131 @@
 package src.utils;
 
+import src.persons.Person;
 import src.persons.PersonsGroup;
 import src.problems.AbstractProblem;
 import src.problems.Problem;
 import src.roomComponents.Room;
 import src.roomComponents.Row;
+import src.roomComponents.RowGroup;
+import src.roomComponents.Seat;
 
 import java.io.*;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class Parser {
 
     public static AbstractProblem createProblem(String folderName, int reservationSpecified) {
         //accéder au fichier
 
-        //créations des élèments du problème
-        Room room = createRoom(filePath);
-        int[] contraints = createContraints(filePath);
-        List<PersonsGroup> reservations = createReservations(filePath);
+        //créations des elements du problème
+        Room room = createRoom(folderName);
+        int[] constraints = createConstraints(folderName);
+        List<PersonsGroup> reservations = createReservations(folderName, reservationSpecified);
 
-        //créer un objet de classe Problem avec les valeurs récupérée au dessus
-        Problem problem = new Problem(folderName, reservations, contraints[0], contraints[1], contraints[2], room);
-
-        return problem;
+        //créer et retourner un objet de classe Problem avec les valeurs récupérées au-dessus
+        return new Problem(folderName, reservations, constraints[0], constraints[1], constraints[2], room);
     }
 
-    private static int[] createContraints(String filePath) {
+    private static int[] createConstraints(String filePath) {
+        int p, k, q;
+        String line = "";
 
-    }
-
-    private static List<PersonsGroup> createReservations(String filePath) {
-        //lecture de contraintes01.txt
+        //On lit le fichier pour obtenir les 3 valeurs p k et q sous forme de String
         try {
-            URL path = Foo.class.getResource(".../Data/" + FilePath+"contraintes01.txt");
-            File file = new File(path.getFile());
+            File file = new File("Data/" + filePath + "/Contraintes01..txt");
+            Scanner myReader = new Scanner(file);
+
+            line = myReader.nextLine(); //lire première ligne avec k p q récupéré en String
+            myReader.close();
+        } catch (FileNotFoundException e) { //en cas d'erreur sur la lecture
+            System.out.println("Could not read data from file.");
+            e.printStackTrace();
+            System.exit(1);
+
+        }
+
+        //split de la ligne pour séparer les nombres, et on les convertit en int
+        String[] pkq = line.split(" ");
+        p = Integer.parseInt(pkq[0]);
+        k = Integer.parseInt(pkq[1]);
+        q = Integer.parseInt(pkq[2]);
+
+        //on crée un tableau pour les stocker
+        int[] constraints = new int[3];
+        constraints[0] = p;
+        constraints[1] = k;
+        constraints[2] = q;
+
+        //on renvoie le tableau des contraintes
+        return constraints;
+    }
+
+    private static List<PersonsGroup> createReservations(String filePath, int reservationSpecified) {
+        String nb = String.valueOf(reservationSpecified);
+        if (reservationSpecified < 10) {
+            nb = "0" + nb;
+        }
+
+        String nbResString = "";
+        String SpecString = "";
+        //lecture de ReservationXX.txt
+        try {
+            File file = new File("Data/" + filePath + "/Reservations" + nb + ".txt");
+
             Scanner myReader = new Scanner(file);
 
             //lire les données de fichier
-            String rowString;
-            String rowGroupString;
-            List<String> placesDistanceString = new ArrayList<>();
-
-
-            rowString = myReader.nextLine(); //lire première ligne "G rangées
-            rowGroupString = myReader.nextLine(); //lire seconde ligne "Rg rangées"
-            while (myReader.hasNextLine()) {
-                //algo de bouclage sur les rangées
-                placesDistanceString.add(myReader.nextLine()); // on lit chaque ligne et on stocke le nb de place et la distance
-            }
+            nbResString = myReader.nextLine(); //lire première ligne "G rangées
+            SpecString = myReader.nextLine(); //lire seconde ligne "Rg rangées"
 
             myReader.close();
         } catch (FileNotFoundException e) { //en cas d'erreur sur la lecture
             System.out.println("Could not read data from file.");
             e.printStackTrace();
+            System.exit(1);
         }
+
+        //on crée la liste qu'on va return
+        List<PersonsGroup> reservations = new ArrayList<>();
+
+        //on divise toutes les reservations en string[] contenant le nombre de personne par reservation dans une case du tableau
+        String[] specsTabString = SpecString.split(" ");
+        int nbRes = Integer.parseInt(nbResString);
+
+        //on itère sur le tableau pour générer les personnes et les mettre dans des PersonsGroup
+        for (int i = 0; i < nbRes; i++) {
+            List<Person> persons = new ArrayList<>();
+            int nbPers = Integer.parseInt(specsTabString[i]);
+            for (int y = 0; y < nbPers; y++) {//itération pour créer le nb de personne de la réservation
+                persons.add(new Person());
+            }
+            //On les regroupe ensemble
+            reservations.add(new PersonsGroup(persons));
+        }
+        return reservations;
     }
 
 
     private static Room createRoom(String filePath) {
+        //Initialisation de variable avant lecture
+        String groupString = "";
+        String rowGroupString = "";
+        List<String> placesDistanceString = new ArrayList<>();
+        // ListIterator<String> pds = placesDistanceString.listIterator(); // c'est mieux que get() mais j'arrive pas à le faire fonctionner
+
         //lecture de salleXX.txt
         try {
-            URL path = Foo.class.getResource(".../Data/" + FilePath + FilePath + ".txt");
-            File file = new File(path.getFile());
+            String path = "Data/" + filePath + "/" + filePath + ".txt";
+            File file = new File(path);
+
             Scanner myReader = new Scanner(file);
 
             //lire les données de fichier
-            String rowString;
-            String rowGroupString;
-            List<String> placesDistanceString = new ArrayList<>();
-
-
-            rowString = myReader.nextLine(); //lire première ligne "G rangées
+            groupString = myReader.nextLine(); //lire première ligne "G rangées" (ou G groupes)
             rowGroupString = myReader.nextLine(); //lire seconde ligne "Rg rangées"
-            while (myReader.hasNextLine()) {
-                //algo de bouclage sur les rangées
+            while (myReader.hasNextLine()) {                //algo de bouclage sur les rangées
                 placesDistanceString.add(myReader.nextLine()); // on lit chaque ligne et on stocke le nb de place et la distance
             }
 
@@ -84,8 +133,51 @@ public class Parser {
         } catch (FileNotFoundException e) { //en cas d'erreur sur la lecture
             System.out.println("Could not read data from file.");
             e.printStackTrace();
+            System.exit(1);
         }
 
-        return Null;
+        //Traitement des données lues
+
+        //On récupère le nombre de rangées
+        int nbOfGroups = Integer.parseInt(groupString);
+
+        //On crée la liste du nombre de rangées par groupe
+        String[] rowGroupParsed = rowGroupString.split(" ");
+        int[] Groups = new int[nbOfGroups];
+        for (int i = 0; i < nbOfGroups; i++) {
+            Groups[i] = Integer.parseInt(rowGroupParsed[i]);
+        }
+
+        //On récupère la liste des sièges
+        List<Row> rows;
+        List<RowGroup> groupsList = new ArrayList<>();
+        List<Seat> s;
+
+        //On doit maintenant créer pour chaque groupe sa liste de rangée, et pour chaque rangée sa liste de siège et les distance
+
+        //Double boucle, on boucle sur le nombre de groupes puis sur le nombre de rangées dans un groupe
+        for (int grp_ite = 0; grp_ite < nbOfGroups; grp_ite++) {//boucle sur le nombre de groupes
+
+            rows = new ArrayList<>();
+            int j = 0;//compteur de ligne pour pas relire la meme ligne
+            for (int row_ite = 0; row_ite < Groups[grp_ite]; row_ite++) {//Boucle sur le nombre de rangées par groupe
+                s = new ArrayList<>();
+                String[] currentRow = placesDistanceString.get(j).split(" ");
+                int nbSeats = Integer.parseInt(currentRow[0]);
+                int distance = Integer.parseInt(currentRow[1]);
+
+                for (int i = 0; i < nbSeats; i++) {//On instancie nbSeats sièges
+                    s.add(new Seat());
+                }
+
+                rows.add(new Row(s, distance));
+                j++;
+            }
+
+            groupsList.add(new RowGroup(rows));
+        }
+
+
+        return new Room(groupsList);
     }
 }

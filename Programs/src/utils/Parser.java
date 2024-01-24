@@ -14,6 +14,12 @@ import java.util.*;
 
 public class Parser {
 
+    /**
+     *
+     * @param folderName uniquement le nom de la salle (comme "Salle01"), sans les slashs
+     * @param reservationSpecified le numero des contraintes choisies
+     * @return un objet problème
+     */
     public static AbstractProblem createProblem(String folderName, int reservationSpecified) {
         //accéder au fichier
 
@@ -22,8 +28,12 @@ public class Parser {
         int[] constraints = createConstraints(folderName);
         List<PersonsGroup> reservations = createReservations(folderName, reservationSpecified);
 
+        //nommage du probleme au format : Problem-S<nbSalle>-R<nbReservation>
+        String folderNumber = folderName.substring(folderName.length()-2);
+        String sb = "Problem-S" + folderNumber + "-R" + reservationSpecified;
+
         //créer et retourner un objet de classe Problem avec les valeurs récupérées au-dessus
-        return new Problem(folderName, reservations, constraints[0], constraints[1], constraints[2], room);
+        return new Problem(sb, reservations, constraints[0], constraints[1], constraints[2], room);
     }
 
     private static int[] createConstraints(String filePath) {

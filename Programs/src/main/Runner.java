@@ -31,4 +31,21 @@ public class Runner {
         }
         this.solutions = solutions;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Problèmes du Runner :\n");
+        for (AbstractProblem p : this.problems) {
+            sb.append(p.getName());
+            sb.append("\n");
+        }
+
+        // TODO: afficher aussi les algos
+        return sb.toString();
+    }
+
+    // TODO: ajouter les getters et setters de algos, problems et solutions
+    // algos et problems peuvent être édités en dehors du runner en cas d'une IHM
+    // on doit pouvoir récupérer les solutions (pas forcément les edit)
 }

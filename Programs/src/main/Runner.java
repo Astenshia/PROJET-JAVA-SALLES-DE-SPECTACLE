@@ -1,6 +1,6 @@
 package src.main;
 
-import src.interfaces.Algo;
+import src.algorithms.AbstractAlgo;
 import src.problems.AbstractProblem;
 import src.problems.Solution;
 
@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Runner {
-    private List<Algo> algos;
+    private List<AbstractAlgo> algos;
     private List<AbstractProblem> problems;
     private List<Solution> solutions;
 
-    public Runner(List<Algo> algos, List<AbstractProblem> problems) {
+    public Runner(List<AbstractAlgo> algos, List<AbstractProblem> problems) {
         this.algos = algos;
         this.problems = problems;
     }
@@ -25,7 +25,7 @@ public class Runner {
 
         // exécution de chaque algo pour chaque problème et ajout de la solution trouvée dans la liste de solutions
         for (AbstractProblem problem : this.problems) {
-            for (Algo algo : this.algos) {
+            for (AbstractAlgo algo : this.algos) {
                 solutions.add(algo.execute(problem));
             }
         }

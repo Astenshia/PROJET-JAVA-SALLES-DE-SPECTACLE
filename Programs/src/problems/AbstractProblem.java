@@ -27,4 +27,28 @@ public abstract class AbstractProblem {
     public int getNbReservations() {
         return reservations.size();
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<PersonsGroup> getReservations() {
+        return reservations;
+    }
+
+    public int getRowDistance() {
+        return rowDistance;
+    }
+
+    public int getPeopleDistance() {
+        return peopleDistance;
+    }
+
+    public int getMaxGroupSize() {
+        return maxGroupSize;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
 }

@@ -1,16 +1,17 @@
-package roomComponents;
+package src.roomComponents;
 
-import persons.Person;
+import src.persons.Person;
 
 public class Seat {
     private boolean outOfOrder;
-    private  boolean empty;
+    private boolean empty;
     private Person person;
 
-    public Seat(){
-        outOfOrder=false;
-        empty=true;
+    public Seat() {
+        outOfOrder = false;
+        empty = true;
     }
+
     public boolean isOutOfOrder() {
         return outOfOrder;
     }
@@ -27,9 +28,8 @@ public class Seat {
         this.outOfOrder = outOfOrder;
     }
 
-    public void setPerson(Person p){
-        this.person=p;
+    public void setPerson(Person p) {
+        this.person = p;
     }
-
 
 }

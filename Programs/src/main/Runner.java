@@ -17,7 +17,7 @@ public class Runner {
         this.problems = problems;
     }
 
-    public void runAll() {
+    public void executeAllAlgorithms() {
         // création d'un nouveau tableau de solutions
         // on n'utilise pas directement l'attribut "solutions" car en cas de modifications des algos et des problèmes,
         // cela permet de remplacer automatiquement les anciennes solutions, sans avoir à les modifier dans le tableau
@@ -41,7 +41,13 @@ public class Runner {
             sb.append("\n");
         }
 
-        // TODO: afficher aussi les algos
+        sb.append("Algorithmes du Runner : \n");
+
+        for (AbstractAlgo a : this.algos) {
+            sb.append(a.getName());
+            sb.append("\n");
+        }
+
         return sb.toString();
     }
 

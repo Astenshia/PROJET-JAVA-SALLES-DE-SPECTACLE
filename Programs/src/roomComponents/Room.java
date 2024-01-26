@@ -3,17 +3,17 @@ package src.roomComponents;
 import java.util.List;
 
 public class Room {
-    private List<RowGroup> groups;
+    private List<RowGroup> rowGroups;
 
     public Room(List<RowGroup> groups) {
-        this.groups = groups;
+        this.rowGroups = groups;
     }
 
     public String toString() {
-        int groupSize = groups.size();
+        int groupSize = rowGroups.size();
         String res = groupSize + " RowGroups. \n";
         for (int i = 0; i < groupSize; i++) {
-            res = res + "RowGroup " + i + " has " + groups.get(i).getNbRows() + " rows\n";
+            res = res + "RowGroup " + i + " has " + rowGroups.get(i).getNbRows() + " rows\n";
         }
         return res;
     }

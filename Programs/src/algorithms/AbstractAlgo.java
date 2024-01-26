@@ -5,13 +5,7 @@ import src.problems.AbstractProblem;
 import src.problems.Solution;
 
 public abstract class AbstractAlgo {
-    private long runTime;
-
     public AbstractAlgo() {
-    }
-
-    public long getRunTime() {
-        return runTime;
     }
 
     public String getName() {

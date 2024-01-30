@@ -15,7 +15,7 @@ public abstract class AbstractProblem {
 
     private Room room; //la salle de spectacle
 
-    public AbstractProblem(String name, List<PersonsGroup> r, int p, int q, int k, Room room) {
+    public AbstractProblem(String name, List<PersonsGroup> r, int p, int k, int q, Room room) {
         this.name = name;
         this.reservations = r;
         this.rowDistance = p;

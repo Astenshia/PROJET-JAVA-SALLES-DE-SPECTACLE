@@ -1,6 +1,8 @@
 package src.problems;
 
 import src.persons.PersonsGroup;
+import src.roomComponents.Row;
+import src.roomComponents.RowGroup;
 
 import java.util.ArrayList;
 
@@ -77,5 +79,24 @@ public class Solution {
 
     public void setUnplacedGroups(ArrayList<PersonsGroup> unplacedGroups) {
         this.unplacedGroups = unplacedGroups;
+    }
+
+    @Override
+    public String toString() {
+        System.out.println("### Row Groups de solution : " + this.problem.getName() + " | " + this.getAlgoName() + " ###\n");
+        for (RowGroup rowGroup : this.problem.getRoom().getRowGroups()) {
+            System.out.println("\n\nRow Group:");
+            for (Row row : rowGroup.getRows()) {
+                System.out.println(row.getSeats());
+            }
+        }
+
+        return "### Solution : " + this.problem.getName() + " | " + this.getAlgoName() + " ###\n"
+                + "Nombre de rangées utilisées : "
+                + this.filledRows
+                + "\nSomme des distances à la scène : "
+                + this.sumDistance
+                + "\nTaux de remplissage : "
+                + this.filledSeats + "/" + this.totalSeats;
     }
 }

@@ -32,6 +32,12 @@ public class Runner {
         this.solutions = solutions;
     }
 
+    public void printAllSolutions() {
+        for (Solution solution : this.solutions) {
+            System.out.println(solution);
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

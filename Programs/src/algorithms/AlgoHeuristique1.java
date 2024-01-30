@@ -55,18 +55,19 @@ public class AlgoHeuristique1 extends AbstractAlgo {
                         // marquer la rangée actuelle comme engagée
                         rowIsUsed = true;
 
+                        System.out.println("1: s=" + s);
                         // placer chaque personne une à une
                         for (Person p : unplacedPersonsGroups.get(0).getPersons()) {
                             // la personne est associée au siège
                             row.getSeats().get(s).setPerson(p);
                             // le siège est associé à la personne
                             p.setSeat(row.getSeats().get(s));
-
+                            System.out.println("    1: s=" + s);
                             // incrémenter le nombre de sièges remplis
                             filledSeats++;
-
                             s++;
                         }
+                        System.out.println("2: s=" + s);
                         // marquer les sièges comptant comme un espace vide séparant les spectateurs
                         for (int i = 0; i < problem.getPeopleDistance(); i++) {
                             if (s < row.getCapacity()) {
@@ -74,9 +75,14 @@ public class AlgoHeuristique1 extends AbstractAlgo {
                                 s++;
                             }
                         }
+                        System.out.println("3: s=" + s);
+
+                        unplacedPersonsGroups.remove(0);
                     }
+                    System.out.println(unplacedPersonsGroups + " " + s);
                     s++;
-                    rowIsFull = (s >= rowGroup.getNbRows());
+                    rowIsFull = (s >= row.getCapacity());
+                    System.out.println("4: s=" + s);
                 }
                 // si la rangée est utilisée
                 if (rowIsUsed) {

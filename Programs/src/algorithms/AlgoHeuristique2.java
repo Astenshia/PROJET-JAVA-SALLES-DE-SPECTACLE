@@ -15,6 +15,8 @@ public class AlgoHeuristique2 extends AbstractAlgo {
     @Override
     public Solution execute(AbstractProblem problem) {
         Solution solution = new Solution();
+        solution.setAlgoName(this.getClass().getSimpleName());
+        solution.setProblem(problem);
 
         //TODO: trier les groupes par ordre décroissant avant d'insérer
 
@@ -29,6 +31,7 @@ public class AlgoHeuristique2 extends AbstractAlgo {
         int filledSeats = 0;
         int sumDistance = 0;
         int filledRows = 0;
+        int totalSeats = 0;
 
 
         for (PersonsGroup personsGroup : unplacedPersonsGroups) {
@@ -53,6 +56,7 @@ public class AlgoHeuristique2 extends AbstractAlgo {
                             if (!rows.get(j).isUsed()) {
                                 filledRows++;
                                 sumDistance += rows.get(j).getSceneDistance();
+                                totalSeats += rows.get(j).getCapacity();
                             }
 
                             personsGroup.setSeated(true);
@@ -65,6 +69,12 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
 
         }
+
+        solution.setFilledRows(filledRows);
+        solution.setFilledSeats(filledSeats);
+        solution.setSumDistance(sumDistance);
+        solution.setTotalSeats(totalSeats);
+        solution.setUnplacedGroups(unplacedPersonsGroups);
 
         return solution;
     }

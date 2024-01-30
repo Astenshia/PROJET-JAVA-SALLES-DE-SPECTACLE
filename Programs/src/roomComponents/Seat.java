@@ -33,4 +33,14 @@ public class Seat {
         this.empty = false;
     }
 
+    @Override
+    public String toString() {
+        if (empty) {
+            return "0";
+        } else if (outOfOrder) {
+            return "2";
+        } else {
+            return "1";
+        }
+    }
 }

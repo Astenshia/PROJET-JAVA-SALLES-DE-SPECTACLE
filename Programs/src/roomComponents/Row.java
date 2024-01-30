@@ -21,6 +21,15 @@ public class Row {
         availableSpace -= nbPersons+p;
 
     }
+
+    public List<Seat> getSeats() {
+        return seats;
+    }
+
+    public int getSceneDistance() {
+        return sceneDistance;
+    }
+
     public int getCapacity() {
         return seats.size();
     }

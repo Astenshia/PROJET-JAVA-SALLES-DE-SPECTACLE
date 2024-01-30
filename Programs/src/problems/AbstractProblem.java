@@ -6,7 +6,7 @@ import src.roomComponents.Room;
 import java.util.List;
 
 public abstract class AbstractProblem {
-    private String name;
+    final private String name;
     private List<PersonsGroup> reservations;
     // contraint class ?
     private int rowDistance; // p
@@ -22,10 +22,6 @@ public abstract class AbstractProblem {
         this.peopleDistance = q;
         this.maxGroupSize = k;
         this.room = room;
-    }
-
-    public int getNbReservations() {
-        return reservations.size();
     }
 
     public String getName() {
@@ -47,8 +43,13 @@ public abstract class AbstractProblem {
     public int getMaxGroupSize() {
         return maxGroupSize;
     }
-
     public Room getRoom() {
         return room;
     }
+    public int getNbReservations() {
+        return reservations.size();
+    }
+
+
+
 }

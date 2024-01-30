@@ -11,6 +11,10 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
         seated =false;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
     public int getNbPersons() {
         return persons.size();
     }

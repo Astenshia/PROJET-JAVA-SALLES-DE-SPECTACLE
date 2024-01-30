@@ -17,4 +17,12 @@ public class Room {
         }
         return res;
     }
+
+    public List<RowGroup> getRowGroups() {
+        return rowGroups;
+    }
+
+    public int getNbRowGroups() {
+        return this.rowGroups.size();
+    }
 }

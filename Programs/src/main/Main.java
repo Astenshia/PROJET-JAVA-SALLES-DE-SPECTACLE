@@ -15,9 +15,10 @@ public class Main {
 
         ArrayList<AbstractProblem> problems = new ArrayList<>();
         problems.add(Parser.createProblem("Salle01", 1));
-        problems.add(Parser.createProblem("Salle01", 2));
 
         Runner r1 = new Runner(algos, problems);
+
+        r1.executeAllAlgorithms();
 
         System.out.println(r1);
     }

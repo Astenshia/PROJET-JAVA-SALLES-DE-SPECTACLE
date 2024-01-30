@@ -12,4 +12,8 @@ public class RowGroup {
     public int getNbRows() {
         return rows.size();
     }
+
+    public List<Row> getRows() {
+        return rows;
+    }
 }

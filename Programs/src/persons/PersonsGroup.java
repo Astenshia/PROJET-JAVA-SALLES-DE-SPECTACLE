@@ -9,6 +9,10 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
         this.persons = persons;
     }
 
+    public List<Person> getPersons() {
+        return persons;
+    }
+
     public int getNbPersons() {
         return persons.size();
     }

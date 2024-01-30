@@ -16,12 +16,21 @@ public class Solution {
     private ArrayList<PersonsGroup> unplacedGroups;
 
 
+    public Solution() {
+        this.filledRows = 0;
+        this.sumDistance = 0;
+        this.emptySeats = 0;
+        this.filledSeats = 0;
+    }
+
     public long getRunTime() {
         return runTime;
     }
-    public String getAlgoName(){
+
+    public String getAlgoName() {
         return this.algoName;
     }
+
     public int getFilledRows() {
         return this.filledRows;
     }
@@ -39,13 +48,32 @@ public class Solution {
     public void setFilledRows(int filledRows) {
         this.filledRows =filledRows;
     }
-    public void setSumDistance(int sumDistance){
+
+    public void setSumDistance(int sumDistance) {
         this.sumDistance = sumDistance;
     }
-    public void setEmptySeats(int emptySeats){
+
+    public void setEmptySeats(int emptySeats) {
         this.emptySeats = emptySeats;
     }
-    public void setFilledSeats(int filledSeats){
+
+    public void setFilledSeats(int filledSeats) {
         this.filledSeats = filledSeats;
+    }
+
+    public void setRunTime(long runTime) {
+        this.runTime = runTime;
+    }
+
+    public void setProblem(AbstractProblem problem) {
+        this.problem = problem;
+    }
+
+    public void setAlgoName(String algoName) {
+        this.algoName = algoName;
+    }
+
+    public void setUnplacedGroups(ArrayList<PersonsGroup> unplacedGroups) {
+        this.unplacedGroups = unplacedGroups;
     }
 }

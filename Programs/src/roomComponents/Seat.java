@@ -30,6 +30,7 @@ public class Seat {
 
     public void setPerson(Person p) {
         this.person = p;
+        this.empty = false;
     }
 
 }

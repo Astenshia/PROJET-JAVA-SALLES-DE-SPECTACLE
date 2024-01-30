@@ -1,6 +1,5 @@
 package src.problems;
 
-import src.algorithms.AbstractAlgo;
 import src.persons.PersonsGroup;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ public class Solution {
     private String algoName;
     private int filledRows;
     private int sumDistance;
-    private int emptySeats;
+    private int totalSeats;
     private int filledSeats;
     private ArrayList<PersonsGroup> unplacedGroups;
 
@@ -19,7 +18,7 @@ public class Solution {
     public Solution() {
         this.filledRows = 0;
         this.sumDistance = 0;
-        this.emptySeats = 0;
+        this.totalSeats = 0;
         this.filledSeats = 0;
     }
 
@@ -34,27 +33,30 @@ public class Solution {
     public int getFilledRows() {
         return this.filledRows;
     }
-    public int getSumDistance(){
+
+    public int getSumDistance() {
         return this.sumDistance;
     }
-    public int getEmptySeats(){
-        return this.emptySeats;
+
+    public int getTotalSeats() {
+        return this.totalSeats;
     }
-    public int getFilledSeats(){
+
+    public int getFilledSeats() {
         return filledSeats;
     }
 
 
     public void setFilledRows(int filledRows) {
-        this.filledRows =filledRows;
+        this.filledRows = filledRows;
     }
 
     public void setSumDistance(int sumDistance) {
         this.sumDistance = sumDistance;
     }
 
-    public void setEmptySeats(int emptySeats) {
-        this.emptySeats = emptySeats;
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
     }
 
     public void setFilledSeats(int filledSeats) {

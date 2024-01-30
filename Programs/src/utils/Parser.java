@@ -147,7 +147,7 @@ public class Parser {
         //Traitement des données lues
 
         //On récupère le nombre de rangées
-        int nbOfGroups = Integer.parseInt(groupString);
+        int nbOfGroups = Integer.parseInt(groupString); //raw groups
 
         //On crée la liste du nombre de rangées par groupe
         String[] rowGroupParsed = rowGroupString.split(" ");

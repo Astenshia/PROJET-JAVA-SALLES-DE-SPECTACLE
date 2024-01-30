@@ -15,12 +15,11 @@ import java.util.*;
 public class Parser {
 
     /**
-     *
-     * @param folderName uniquement le nom de la salle (comme "Salle01"), sans les slashs
+     * @param folderName           uniquement le nom de la salle (comme "Salle01"), sans les slashs
      * @param reservationSpecified le numero des contraintes choisies
      * @return un objet problème
      */
-    public static AbstractProblem createProblem(String folderName, int reservationSpecified) {
+    public static Problem createProblem(String folderName, int reservationSpecified) {
         //accéder au fichier
 
         //créations des elements du problème
@@ -29,7 +28,7 @@ public class Parser {
         List<PersonsGroup> reservations = createReservations(folderName, reservationSpecified);
 
         //nommage du probleme au format : Problem-S<nbSalle>-R<nbReservation>
-        String folderNumber = folderName.substring(folderName.length()-2);
+        String folderNumber = folderName.substring(folderName.length() - 2);
         String sb = "Problem-S" + folderNumber + "-R" + reservationSpecified;
 
         //créer et retourner un objet de classe Problem avec les valeurs récupérées au-dessus
@@ -116,7 +115,7 @@ public class Parser {
     }
 
 
-    private static Room createRoom(String filePath) {
+    public static Room createRoom(String filePath) {
         //Initialisation de variable avant lecture
         String groupString = "";
         String rowGroupString = "";

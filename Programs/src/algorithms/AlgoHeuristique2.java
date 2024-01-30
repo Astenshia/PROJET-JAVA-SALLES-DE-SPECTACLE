@@ -25,19 +25,43 @@ public class AlgoHeuristique2 extends AbstractAlgo {
         List<RowGroup> rowGroups = problem.getRoom().getRowGroups();
         int p = problem.getPeopleDistance();
 
-        for (PersonsGroup personsGroup : unplacedPersonsGroups){
-            int i=0;
-            while (!personsGroup.isSeated() &&  i < rowGroups.size()){
-                    List<Row> rows = rowGroups.get(i).getRows();
-                    int j =0;
-                    while (!personsGroup.isSeated() && j < rows.size()){
-                        if (rows.get(j).enoughFor(personsGroup.getNbPersons(), p) ){
+
+        int filledSeats = 0;
+        int sumDistance = 0;
+        int filledRows = 0;
+
+
+        for (PersonsGroup personsGroup : unplacedPersonsGroups) {
+            int i = 0;
+            while (!personsGroup.isSeated() && i < rowGroups.size()) {
+                List<Row> rows = rowGroups.get(i).getRows();
+                int j = 0;
+                boolean securityRow = false;
+                while (!personsGroup.isSeated() && j < rows.size()) {
+                    if (j > 0)
+                        securityRow = rows.get(j - 1).isUsed();
+
+                    if (j < rows.size())
+                        securityRow = securityRow || rows.get(j + 1).isUsed();
+
+
+                    if (!securityRow) {
+                        if (rows.get(j).enoughFor(personsGroup.getNbPersons(), p)) {
                             rows.get(j).add(personsGroup.getNbPersons(), p);
+                            filledSeats += personsGroup.getNbPersons();
+
+                            if (!rows.get(j).isUsed()) {
+                                filledRows++;
+                                sumDistance += rows.get(j).getSceneDistance();
+                            }
+
                             personsGroup.setSeated(true);
                         }
+                    }
+                    j++;
                 }
+                i++;
             }
-
 
 
         }

@@ -14,12 +14,7 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
     @Override
     public Solution execute(AbstractProblem problem) {
-        Solution solution = new Solution();
-        solution.setAlgoName(this.getClass().getSimpleName());
-        solution.setProblem(problem);
-
-        //TODO: trier les groupes par ordre décroissant avant d'insérer
-
+        long start = System.nanoTime();
 
         ArrayList<PersonsGroup> unplacedPersonsGroups = new ArrayList<>(problem.getReservations());
         Collections.sort(unplacedPersonsGroups);
@@ -27,12 +22,10 @@ public class AlgoHeuristique2 extends AbstractAlgo {
         List<RowGroup> rowGroups = problem.getRoom().getRowGroups();
         int p = problem.getPeopleDistance();
 
-
         int filledSeats = 0;
         int sumDistance = 0;
         int filledRows = 0;
         int totalSeats = 0;
-
 
         for (PersonsGroup personsGroup : unplacedPersonsGroups) {
             int i = 0;
@@ -41,11 +34,13 @@ public class AlgoHeuristique2 extends AbstractAlgo {
                 int j = 0;
                 boolean securityRow = false;
                 while (!personsGroup.isSeated() && j < rows.size()) {
-                    if (j > 0)
+                    if (j > 0) {
                         securityRow = rows.get(j - 1).isUsed();
+                    }
 
-                    if (j < rows.size())
+                    if (j < rows.size()) {
                         securityRow = securityRow || rows.get(j + 1).isUsed();
+                    }
 
 
                     if (!securityRow) {
@@ -70,12 +65,8 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
         }
 
-        solution.setFilledRows(filledRows);
-        solution.setFilledSeats(filledSeats);
-        solution.setSumDistance(sumDistance);
-        solution.setTotalSeats(totalSeats);
-        solution.setUnplacedGroups(unplacedPersonsGroups);
-
-        return solution;
+        long end = System.nanoTime();
+        return new Solution(problem, this.getClass().getSimpleName(),
+                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups, end - start);
     }
 }

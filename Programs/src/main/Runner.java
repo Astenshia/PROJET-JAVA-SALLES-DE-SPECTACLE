@@ -27,6 +27,7 @@ public class Runner {
         for (AbstractProblem problem : this.problems) {
             for (AbstractAlgo algo : this.algos) {
                 solutions.add(algo.execute(problem));
+                // TODO: make a copy of the problem when creating a Solution, and reset the room for other algorithms after execution of an algorithm.
             }
         }
         this.solutions = solutions;

@@ -1,31 +1,36 @@
 package src.problems;
 
 import src.persons.PersonsGroup;
-import src.roomComponents.Row;
-import src.roomComponents.RowGroup;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class Solution {
-    private long runTime;
     private AbstractProblem problem;
     private String algoName;
     private int filledRows;
     private int sumDistance;
-    private int totalSeats;
     private int filledSeats;
-    private ArrayList<PersonsGroup> unplacedGroups;
+    private int totalSeats;
+    private List<PersonsGroup> unplacedGroups;
+    /**
+     * Stores the runtime for this solution in nanoseconds.
+     */
+    private long runTime;
 
-
-    public Solution() {
-        this.filledRows = 0;
-        this.sumDistance = 0;
-        this.totalSeats = 0;
-        this.filledSeats = 0;
+    public Solution(AbstractProblem problem, String algoName, int filledRows, int sumDistance, int filledSeats,
+                    int totalSeats, List<PersonsGroup> unplacedGroups, long runTime) {
+        this.problem = problem;
+        this.algoName = algoName;
+        this.filledRows = filledRows;
+        this.sumDistance = sumDistance;
+        this.filledSeats = filledSeats;
+        this.totalSeats = totalSeats;
+        this.unplacedGroups = unplacedGroups;
+        this.runTime = runTime;
     }
 
-    public long getRunTime() {
-        return runTime;
+    public AbstractProblem getProblem() {
+        return problem;
     }
 
     public String getAlgoName() {
@@ -40,15 +45,27 @@ public class Solution {
         return this.sumDistance;
     }
 
-    public int getTotalSeats() {
-        return this.totalSeats;
-    }
-
     public int getFilledSeats() {
         return filledSeats;
     }
 
+    public int getTotalSeats() {
+        return this.totalSeats;
+    }
 
+    public List<PersonsGroup> getUnplacedGroups() {
+        return this.unplacedGroups;
+    }
+
+    public long getRunTime() {
+        return this.runTime;
+    }
+
+    public long getRunTimeMicroSeconds() {
+        return this.runTime/1000;
+    }
+
+    //TODO: remove all setters ?
     public void setFilledRows(int filledRows) {
         this.filledRows = filledRows;
     }
@@ -57,12 +74,12 @@ public class Solution {
         this.sumDistance = sumDistance;
     }
 
-    public void setTotalSeats(int totalSeats) {
-        this.totalSeats = totalSeats;
-    }
-
     public void setFilledSeats(int filledSeats) {
         this.filledSeats = filledSeats;
+    }
+
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
     }
 
     public void setRunTime(long runTime) {
@@ -77,26 +94,20 @@ public class Solution {
         this.algoName = algoName;
     }
 
-    public void setUnplacedGroups(ArrayList<PersonsGroup> unplacedGroups) {
+    public void setUnplacedGroups(List<PersonsGroup> unplacedGroups) {
         this.unplacedGroups = unplacedGroups;
     }
 
     @Override
     public String toString() {
-        System.out.println("### Row Groups de solution : " + this.problem.getName() + " | " + this.getAlgoName() + " ###\n");
-        for (RowGroup rowGroup : this.problem.getRoom().getRowGroups()) {
-            System.out.println("\n\nRow Group:");
-            for (Row row : rowGroup.getRows()) {
-                System.out.println(row.getSeats());
-            }
-        }
-
-        return "### Solution : " + this.problem.getName() + " | " + this.getAlgoName() + " ###\n"
+        return "### [Solution][" + this.problem.getName() + "][" + this.getAlgoName() + "] ###\n"
                 + "Nombre de rangées utilisées : "
                 + this.filledRows
                 + "\nSomme des distances à la scène : "
                 + this.sumDistance
                 + "\nTaux de remplissage : "
-                + this.filledSeats + "/" + this.totalSeats;
+                + this.filledSeats + "/" + this.totalSeats
+                + "\n\nExécutée en " + this.getRunTimeMicroSeconds() + " microseconds."
+                + "\n############";
     }
 }

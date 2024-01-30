@@ -14,10 +14,7 @@ public class AlgoHeuristique1 extends AbstractAlgo {
 
     @Override
     public Solution execute(AbstractProblem problem) {
-        Solution solution = new Solution();
-        solution.setAlgoName(this.getClass().getSimpleName());
-        solution.setProblem(problem);
-
+        long start = System.nanoTime();
         // tri décroissant des groupes de personnes selon leur taille avant de remplir la salle
         ArrayList<PersonsGroup> unplacedPersonsGroups = new ArrayList<>(problem.getReservations());
         Collections.sort(unplacedPersonsGroups);
@@ -28,46 +25,49 @@ public class AlgoHeuristique1 extends AbstractAlgo {
         int totalSeats = 0;
         int filledSeats = 0;
 
-        boolean roomIsFull = false;
-        int rowIndex = 0;
+        // Déclaration des variables utilisées au cours de l'exécution
+        RowGroup rowGroup;
+        Row row;
+        boolean rowIsFull;
+        boolean rowIsUsed;
         int g = 0; // index du group
+        int r; // index de la row
+        int s = 0; // index des seats
+
+        g = 0;
         // parcours des groupes de rangées tant qu'il reste des groupes de personnes à placer ou que la salle n'est pas remplie
-        while (unplacedPersonsGroups.size() > 0 && !roomIsFull) {
+        while (!unplacedPersonsGroups.isEmpty() && g < problem.getRoom().getNbRowGroups()) {
 
-            RowGroup rowGroup = problem.getRoom().getRowGroups().get(g);
-            boolean groupIsFull = false;
-            int r = 0; // index de la row
+            rowGroup = problem.getRoom().getRowGroups().get(g);
+            r = 0;
             // parcours des rangées tant qu'il reste des groupes de personnes à placer ou que le groupe de rangées n'est pas rempli
-            while (unplacedPersonsGroups.size() > 0 && !groupIsFull) {
+            while (!unplacedPersonsGroups.isEmpty() && r < rowGroup.getNbRows()) {
 
-                Row row = rowGroup.getRows().get(r);
-                boolean rowIsFull = false;
-                boolean rowIsUsed = false;
-                int s = 0; // index des seats
+                row = rowGroup.getRows().get(r);
+                rowIsFull = false;
+                rowIsUsed = false;
+                s = 0;
                 // parcours des sièges tant qu'il reste des groupes de personnes à placer ou que la rangée n'est pas remplie
-                while (unplacedPersonsGroups.size() > 0 && !rowIsFull) {
+                while (!unplacedPersonsGroups.isEmpty() && !rowIsFull) {
 
                     // le groupe à placer est toujours le premier de la liste de groupes de personnes à placer
-                    // si le groupe à placer est de taille inférieure ou égale à l'espace restant sur la rangées,
-                    // alors le placer dessus,
+                    // si le groupe à placer est de taille inférieure ou égale à l'espace restant sur la rangée,
+                    // alors le placer sur la rangée actuelle,
                     // sinon passer à la ligne suivante
                     if (unplacedPersonsGroups.get(0).getNbPersons() <= row.getCapacity() - s) {
                         // marquer la rangée actuelle comme engagée
                         rowIsUsed = true;
 
-                        System.out.println("1: s=" + s);
                         // placer chaque personne une à une
                         for (Person p : unplacedPersonsGroups.get(0).getPersons()) {
                             // la personne est associée au siège
                             row.getSeats().get(s).setPerson(p);
                             // le siège est associé à la personne
                             p.setSeat(row.getSeats().get(s));
-                            System.out.println("    1: s=" + s);
                             // incrémenter le nombre de sièges remplis
                             filledSeats++;
                             s++;
                         }
-                        System.out.println("2: s=" + s);
                         // marquer les sièges comptant comme un espace vide séparant les spectateurs
                         for (int i = 0; i < problem.getPeopleDistance(); i++) {
                             if (s < row.getCapacity()) {
@@ -75,14 +75,12 @@ public class AlgoHeuristique1 extends AbstractAlgo {
                                 s++;
                             }
                         }
-                        System.out.println("3: s=" + s);
 
+                        // supprimer le groupe de la liste des groupes de personnes à placer
                         unplacedPersonsGroups.remove(0);
+                    } else {
+                        rowIsFull = true;
                     }
-                    System.out.println(unplacedPersonsGroups + " " + s);
-                    s++;
-                    rowIsFull = (s >= row.getCapacity());
-                    System.out.println("4: s=" + s);
                 }
                 // si la rangée est utilisée
                 if (rowIsUsed) {
@@ -97,18 +95,11 @@ public class AlgoHeuristique1 extends AbstractAlgo {
                     r++;
                 }
                 r++;
-                groupIsFull = (r >= rowGroup.getNbRows());
             }
             g++;
-            roomIsFull = (g >= problem.getRoom().getNbRowGroups());
         }
-
-        solution.setFilledRows(filledRows);
-        solution.setFilledSeats(filledSeats);
-        solution.setSumDistance(sumDistance);
-        solution.setTotalSeats(totalSeats);
-        solution.setUnplacedGroups(unplacedPersonsGroups);
-
-        return solution;
+        long end = System.nanoTime();
+        return new Solution(problem, this.getClass().getSimpleName(),
+                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups, end-start);
     }
 }

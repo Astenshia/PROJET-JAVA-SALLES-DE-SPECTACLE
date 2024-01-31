@@ -7,7 +7,8 @@ import java.util.List;
 
 public class Problem extends AbstractProblem{
 
-    public Problem(String name, List<PersonsGroup> r, int p, int q, int k, Room room) {
-        super(name,r,p,q,k,room);
+    public Problem(String name, List<PersonsGroup> r, int p, int k, int q, Room room) {
+        super(name,r,p,k,q,room);
     }
+
 }

@@ -8,10 +8,9 @@ import java.util.List;
 public abstract class AbstractProblem {
     final private String name;
     private List<PersonsGroup> reservations;
-    // contraint class ?
     private int rowDistance; // p
-    private int peopleDistance; // q
     private int maxGroupSize; // k
+    private int peopleDistance; // q
 
     private Room room; //la salle de spectacle
 
@@ -19,8 +18,8 @@ public abstract class AbstractProblem {
         this.name = name;
         this.reservations = r;
         this.rowDistance = p;
-        this.peopleDistance = q;
         this.maxGroupSize = k;
+        this.peopleDistance = q;
         this.room = room;
     }
 

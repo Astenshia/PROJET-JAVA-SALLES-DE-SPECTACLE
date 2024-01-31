@@ -1,6 +1,8 @@
 package src.problems;
 
 import src.persons.PersonsGroup;
+import src.roomComponents.Row;
+import src.roomComponents.RowGroup;
 
 import java.util.List;
 
@@ -100,6 +102,14 @@ public class Solution {
 
     @Override
     public String toString() {
+        System.out.println("### Row Groups de solution : " + this.problem.getName() + " | " + this.getAlgoName() + " ###\n");
+        for (RowGroup rowGroup : this.problem.getRoom().getRowGroups()) {
+            System.out.println("\n\nRow Group:");
+            for (Row row : rowGroup.getRows()) {
+                System.out.println(row.getSeats());
+            }
+        }
+
         return "### [Solution][" + this.problem.getName() + "][" + this.getAlgoName() + "] ###\n"
                 + "Nombre de rangées utilisées : "
                 + this.filledRows

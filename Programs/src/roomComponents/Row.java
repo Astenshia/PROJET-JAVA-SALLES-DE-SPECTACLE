@@ -1,5 +1,6 @@
 package src.roomComponents;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Row {
@@ -8,11 +9,27 @@ public class Row {
     private int availableSeats;
     private boolean used;
 
-
     public Row(List<Seat> s, int d) {
         this.sceneDistance = d;
         this.seats = s;
         this.availableSeats = s.size();
+        this.used = false;
+    }
+
+    /**
+     * Creates a blank copy of a Row, as if it was empty again.
+     * Hence, the Persons that could be associated to different Seats in the Row won't be associated anymore.
+     * Also, all variables giving information about the Row's fullness will be reset.
+     * @param row the Row to copy
+     */
+    public Row(Row row) {
+        this.sceneDistance = row.sceneDistance;
+        this.seats = new ArrayList<>();
+
+        for (int i = 0; i < row.seats.size(); i++) {
+            this.seats.add(new Seat());
+        }
+        this.availableSeats = row.seats.size();
         this.used = false;
     }
 

@@ -91,8 +91,9 @@ public class AlgoHeuristique1 extends AbstractAlgo {
                     // ajouter la distance à la scène à la somme des distances de la scène
                     sumDistance += row.getSceneDistance();
 
-                    // ajouter une rangée vide entre deux rangées de spectateurs
-                    r++;
+                    // ajouter autant de rangées vides entre deux rangées de spectateurs que nécessaire
+                    // (selon les contraintes du problème)
+                    r += problem.getRowDistance();
                 }
                 r++;
             }

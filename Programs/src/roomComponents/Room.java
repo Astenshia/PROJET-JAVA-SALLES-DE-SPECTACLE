@@ -25,11 +25,11 @@ public class Room {
 
     public String toString() {
         int groupSize = rowGroups.size();
-        String res = groupSize + " RowGroups. \n";
+        StringBuilder res = new StringBuilder(groupSize + " RowGroups. \n");
         for (int i = 0; i < groupSize; i++) {
-            res = res + "RowGroup " + i + " has " + rowGroups.get(i).getNbRows() + " rows\n";
+            res.append("RowGroup ").append(i).append(" has ").append(rowGroups.get(i).getNbRows()).append(" rows\n");
         }
-        return res;
+        return res.toString();
     }
 
     public List<RowGroup> getRowGroups() {

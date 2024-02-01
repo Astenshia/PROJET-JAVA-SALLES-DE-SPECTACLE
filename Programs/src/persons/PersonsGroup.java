@@ -29,6 +29,7 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
         for (int i = 0; i < personsGroup.persons.size(); i++) {
             this.persons.add(new Person(this));
         }
+        this.numGroup = personsGroup.numGroup;
         seated = false;
     }
 

@@ -8,7 +8,6 @@ import src.roomComponents.Row;
 import src.roomComponents.RowGroup;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class AlgoHeuristique1 extends AbstractAlgo {
 

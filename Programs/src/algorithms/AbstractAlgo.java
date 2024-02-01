@@ -1,6 +1,5 @@
 package src.algorithms;
 
-import src.interfaces.Algo;
 import src.problems.AbstractProblem;
 import src.problems.Solution;
 

@@ -7,20 +7,27 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
     private List<Person> persons;
     private boolean seated;
 
-    public PersonsGroup(List<Person> persons) {
-        this.persons = persons;
+    private int numGroup;
+
+    public PersonsGroup(int nbPersons, int numGroup) {
+        this.persons = new ArrayList<>();
+        for (int i = 0; i < nbPersons; i++) {
+            this.persons.add(new Person(this));
+        }
+        this.numGroup = numGroup;
         seated = false;
     }
 
     /**
      * Creates a blank copy of a PersonsGroup.
      * Hence, the Seats that could be associated to different Persons in the PersonsGroup won't be associated anymore.
+     *
      * @param personsGroup the PersonsGroup to copy
      */
     public PersonsGroup(PersonsGroup personsGroup) {
         this.persons = new ArrayList<>();
-        for (Person person : personsGroup.persons) {
-            this.persons.add(new Person());
+        for (int i = 0; i < personsGroup.persons.size(); i++) {
+            this.persons.add(new Person(this));
         }
         seated = false;
     }
@@ -39,6 +46,10 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
 
     public void setSeated(boolean b) {
         this.seated = b;
+    }
+
+    public int getNumGroup() {
+        return numGroup;
     }
 
     @Override

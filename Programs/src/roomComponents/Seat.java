@@ -33,6 +33,10 @@ public class Seat {
         this.empty = false;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
     @Override
     public String toString() {
         if (empty) {

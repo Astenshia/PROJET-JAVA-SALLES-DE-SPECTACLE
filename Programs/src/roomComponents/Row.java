@@ -9,11 +9,14 @@ public class Row {
     private int availableSeats;
     private boolean used;
 
-    public Row(List<Seat> s, int d) {
+    private int numRow;
+
+    public Row(List<Seat> s, int d, int numRow) {
         this.sceneDistance = d;
         this.seats = s;
         this.availableSeats = s.size();
         this.used = false;
+        this.numRow = numRow;
     }
 
     /**
@@ -31,6 +34,7 @@ public class Row {
         }
         this.availableSeats = row.seats.size();
         this.used = false;
+        this.numRow = row.numRow;
     }
 
     public boolean enoughFor(int nbPersons, int p){
@@ -59,4 +63,7 @@ public class Row {
         return seats.size();
     }
 
+    public int getNumRow() {
+        return numRow;
+    }
 }

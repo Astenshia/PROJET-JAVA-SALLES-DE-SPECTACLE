@@ -32,7 +32,7 @@ public class Parser {
         String sb = "Problem-S" + folderNumber + "-R" + reservationSpecified;
 
         //créer et retourner un objet de classe Problem avec les valeurs récupérées au-dessus
-        return new Problem(sb, reservations, constraints[0], constraints[1], constraints[2], room);
+        return new Problem(sb, reservations, constraints[0], constraints[1], constraints[2], room, folderName, reservationSpecified);
     }
 
     private static int[] createConstraints(String filePath) {

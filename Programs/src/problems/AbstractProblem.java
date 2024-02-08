@@ -43,6 +43,8 @@ public abstract class AbstractProblem {
         this.maxGroupSize = abstractProblem.maxGroupSize;
         this.peopleDistance = abstractProblem.peopleDistance;
         this.room = new Room(abstractProblem.room);
+        this.folderName = abstractProblem.folderName;
+        this.numeroReservation = abstractProblem.numeroReservation;
     }
 
     public String getName() {
@@ -71,7 +73,7 @@ public abstract class AbstractProblem {
         return reservations.size();
     }
 
-    public String getFolderName(){ return folderName;}
+    public String getFolderName(){ return this.folderName;}
 
     public int getNumeroReservation(){ return numeroReservation;}
 

@@ -199,33 +199,27 @@ public class Solution {
 
 
     public void solutionToFile() {
-
         //nommage du probleme au format : Remplissage-S<nbSalle>-R<nbReservation>-A<algorithme>(-D<date>)
         String folderNumber = problem.getFolderName().substring(problem.getFolderName().length() - 2);
         String reservation = "0" + Integer.toString(problem.getNumeroReservation());
         String time = java.time.LocalDateTime.now().toString();
 
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
         String dateStr = sdf.format(date);
 
-        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-A" + algoName + "D" + dateStr ;
+        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName + "-D-" + dateStr;
 
 
         //creation fichier et ecriture
-        String path = "/Results/" + name + ".res";
-
-
+        String path = "./Results/" + name + ".res";
         try {
             FileWriter writer = new FileWriter(path);
-
-            //writer.write(contenu);
-
+            writer.write(this.getFormatedResult());
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
 }

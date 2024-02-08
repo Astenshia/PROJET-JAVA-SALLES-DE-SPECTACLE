@@ -22,6 +22,9 @@ public class Main {
 
         r1.executeAllAlgorithms();
         r1.printAllSolutions();
+        r1.storeAllSolutions();
+
+
 
     }
 }

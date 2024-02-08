@@ -4,8 +4,12 @@ import src.persons.PersonsGroup;
 import src.roomComponents.Row;
 import src.roomComponents.RowGroup;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.io.FileWriter;
 
 public class Solution {
     private AbstractProblem problem;
@@ -65,7 +69,7 @@ public class Solution {
     }
 
     public long getRunTimeMicroSeconds() {
-        return this.runTime/1000;
+        return this.runTime / 1000;
     }
 
     //TODO: remove all setters ?
@@ -183,7 +187,7 @@ public class Solution {
             }
         }
 
-        System.out.println("\nFormated restult :\n" + this.getFormatedResult() + "\n");
+        // System.out.println("\nFormated result :\n" + this.getFormatedResult() + "\n");
 
         return "### [Solution][" + this.problem.getName() + "][" + this.getAlgoName() + "] ###\n"
                 + "Nombre de rangées utilisées : "
@@ -195,4 +199,30 @@ public class Solution {
                 + "\n\nExécutée en " + this.getRunTimeMicroSeconds() + " microseconds."
                 + "\n############";
     }
+
+
+    public void solutionToFile() {
+        //nommage du probleme au format : Remplissage-S<nbSalle>-R<nbReservation>-A<algorithme>(-D<date>)
+        String folderNumber = problem.getFolderName().substring(problem.getFolderName().length() - 2);
+        String reservation = "0" + Integer.toString(problem.getNumeroReservation());
+        String time = java.time.LocalDateTime.now().toString();
+
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
+        String dateStr = sdf.format(date);
+
+        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName + "-D-" + dateStr;
+
+
+        //creation fichier et ecriture
+        String path = "./Results/" + name + ".res";
+        try {
+            FileWriter writer = new FileWriter(path);
+            writer.write(this.getFormatedResult());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

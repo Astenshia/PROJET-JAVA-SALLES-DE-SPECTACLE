@@ -12,16 +12,19 @@ public abstract class AbstractProblem {
     private int rowDistance; // p
     private int maxGroupSize; // k
     private int peopleDistance; // q
-
     private Room room; //la salle de spectacle
+    private String folderName;
+    private int numeroReservation;
 
-    public AbstractProblem(String name, List<PersonsGroup> r, int p, int k, int q, Room room) {
+    public AbstractProblem(String name, List<PersonsGroup> r, int p, int k, int q, Room room, String folderName, int numeroReservation) {
         this.name = name;
         this.reservations = r;
         this.rowDistance = p;
         this.maxGroupSize = k;
         this.peopleDistance = q;
         this.room = room;
+        this.folderName = folderName;
+        this.numeroReservation = numeroReservation;
     }
 
     /**
@@ -40,6 +43,8 @@ public abstract class AbstractProblem {
         this.maxGroupSize = abstractProblem.maxGroupSize;
         this.peopleDistance = abstractProblem.peopleDistance;
         this.room = new Room(abstractProblem.room);
+        this.folderName = abstractProblem.folderName;
+        this.numeroReservation = abstractProblem.numeroReservation;
     }
 
     public String getName() {
@@ -67,6 +72,10 @@ public abstract class AbstractProblem {
     public int getNbReservations() {
         return reservations.size();
     }
+
+    public String getFolderName(){ return this.folderName;}
+
+    public int getNumeroReservation(){ return numeroReservation;}
 
     /**
      * Resets the problem by making a blank copy of it.

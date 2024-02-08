@@ -40,6 +40,12 @@ public class Runner {
         }
     }
 
+    public void storeAllSolutions() {
+        for (Solution solution : this.solutions) {
+            solution.solutionToFile();
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

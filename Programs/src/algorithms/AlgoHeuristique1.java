@@ -15,10 +15,12 @@ public class AlgoHeuristique1 extends AbstractAlgo {
     public Solution execute(AbstractProblem problem) {
         long start = System.nanoTime();
 
+        // déclaration des variables utilisée pour la construction d'une Solution
         int filledRows = 0;
         int sumDistance = 0;
         int totalSeats = 0;
         int filledSeats = 0;
+        ArrayList<PersonsGroup> unplacedPersonsGroups;
 
         // Déclaration des variables utilisées au cours de l'exécution
         RowGroup rowGroup;
@@ -94,7 +96,7 @@ public class AlgoHeuristique1 extends AbstractAlgo {
             g++;
         }
         // récupération des groupes non placés
-        ArrayList<PersonsGroup> unplacedPersonsGroups = new ArrayList<>();
+        unplacedPersonsGroups = new ArrayList<>();
         for (int i = indexGroup; i < problem.getNbReservations(); i++) {
             unplacedPersonsGroups.add(problem.getReservations().get(i));
         }

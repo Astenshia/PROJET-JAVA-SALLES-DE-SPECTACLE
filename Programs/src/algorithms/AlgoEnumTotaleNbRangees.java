@@ -1,13 +1,14 @@
 package src.algorithms;
 
 import src.problems.AbstractProblem;
+import src.problems.Problem;
 import src.problems.Solution;
 import src.roomComponents.Row;
 import src.roomComponents.RowGroup;
 
 import java.util.ArrayList;
 
-public class AlgoEnumTotale extends AbstractAlgo {
+public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
     /**
      * Calcule toutes les répartitions possible des rangées dans une liste de groupes de rangées.
@@ -87,16 +88,56 @@ public class AlgoEnumTotale extends AbstractAlgo {
         // fin coup droit
     }
 
+    /**
+     * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
+     *
+     * @param problem
+     * @return
+     */
     @Override
     public Solution execute(AbstractProblem problem) {
+        long start = System.nanoTime();
         ArrayList<ArrayList<Row>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
 
-        for (ArrayList<Row> rowGroup : rowsRepartition) {
-            System.out.println(rowGroup);
+        Solution bestSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(0));
+        Solution tmpSolution;
+        for (int i = 1; i < rowsRepartition.size(); i++) {
+            // TODO: reset problem.room pour pouvoir à nouveau travailler dessus
+
+            tmpSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(i));
+
+            if (bestSolution.getFilledRows() > tmpSolution.getFilledRows()) {
+                bestSolution = tmpSolution;
+            }
         }
 
-        System.out.println(rowsRepartition.size());
+        long end = System.nanoTime();
+        bestSolution.setRunTime(end - start);
+        return bestSolution;
+    }
 
+    /**
+     * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
+     *
+     * @param problem
+     * @param rowsList
+     * @return
+     */
+    private Solution findBestSolutionInRowRepartition(AbstractProblem problem, ArrayList<Row> rowsList) {
+        return findBestSolutionInRowRepartitionWorker(problem, rowsList, 0);
+    }
+
+    /**
+     * Trouve récursivement la meilleure solution de placement des groupes de personnes.
+     * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
+     *
+     * @param problem  le problème étudié
+     * @param rowList  liste de rangées où placer les groupes de personnes
+     * @param rowIndex index de parcours de la liste de rangées
+     * @return
+     */
+    private Solution findBestSolutionInRowRepartitionWorker(AbstractProblem problem, ArrayList<Row> rowList, int rowIndex) {
+        // TODO : reset problem.room entre deux appels pour pouvoir à nouveau travailler dessus
         return null;
     }
 }

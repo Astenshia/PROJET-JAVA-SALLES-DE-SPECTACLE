@@ -39,12 +39,12 @@ public class Seat {
 
     @Override
     public String toString() {
-        if (empty) {
-            return "0";
-        } else if (outOfOrder) {
-            return "2";
+        if (outOfOrder) {
+            return "x";
+        } else if (empty) {
+            return " ";
         } else {
-            return "1";
+            return Integer.toString(this.getPerson().getPersonsGroup().getNumGroup());
         }
     }
 }

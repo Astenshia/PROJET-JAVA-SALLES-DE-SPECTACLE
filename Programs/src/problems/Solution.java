@@ -184,7 +184,7 @@ public class Solution {
             }
         }
 
-        System.out.println("\nFormated restult :\n" + this.getFormatedResult() + "\n");
+        // System.out.println("\nFormated result :\n" + this.getFormatedResult() + "\n");
 
         return "### [Solution][" + this.problem.getName() + "][" + this.getAlgoName() + "] ###\n"
                 + "Nombre de rangées utilisées : "

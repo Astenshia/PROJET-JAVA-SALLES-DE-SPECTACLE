@@ -103,13 +103,11 @@ public class Parser {
 
         //on itère sur le tableau pour générer les personnes et les mettre dans des PersonsGroup
         for (int i = 0; i < nbRes; i++) {
-            List<Person> persons = new ArrayList<>();
             int nbPers = Integer.parseInt(specsTabString[i]);
-            for (int y = 0; y < nbPers; y++) {//itération pour créer le nb de personne de la réservation
-                persons.add(new Person());
-            }
-            //On les regroupe ensemble
-            reservations.add(new PersonsGroup(persons));
+
+            // on crée un nouveau groupe de Persons
+            // les Persons seront créés par le constructeur de PersonsGroup
+            reservations.add(new PersonsGroup(nbPers, i + 1));
         }
         return reservations;
     }
@@ -177,11 +175,11 @@ public class Parser {
                     s.add(new Seat());
                 }
 
-                rows.add(new Row(s, distance));
+                rows.add(new Row(s, distance, row_ite + 1));
                 j++;
             }
 
-            groupsList.add(new RowGroup(rows));
+            groupsList.add(new RowGroup(rows, grp_ite + 1));
         }
 
 

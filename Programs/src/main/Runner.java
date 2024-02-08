@@ -2,6 +2,7 @@ package src.main;
 
 import src.algorithms.AbstractAlgo;
 import src.problems.AbstractProblem;
+import src.problems.Problem;
 import src.problems.Solution;
 
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class Runner {
         for (AbstractProblem problem : this.problems) {
             for (AbstractAlgo algo : this.algos) {
                 solutions.add(algo.execute(problem));
-                // TODO: make a copy of the problem when creating a Solution, and reset the room for other algorithms after execution of an algorithm.
+                problem = Problem.resetProblem((Problem) problem);
             }
         }
         this.solutions = solutions;

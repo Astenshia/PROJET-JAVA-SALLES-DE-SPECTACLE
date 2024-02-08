@@ -157,13 +157,14 @@ public class Parser {
         List<Row> rows;
         List<RowGroup> groupsList = new ArrayList<>();
         List<Seat> s;
-
-        //On doit maintenant créer pour chaque groupe sa liste de rangée, et pour chaque rangée sa liste de siège et les distance
+        RowGroup rowGroup;
+        //On doit maintenant créer pour chaque groupe sa liste de rangées, et pour chaque rangée sa liste de sièges et les distances
 
         //Double boucle, on boucle sur le nombre de groupes puis sur le nombre de rangées dans un groupe
         for (int grp_ite = 0; grp_ite < nbOfGroups; grp_ite++) {//boucle sur le nombre de groupes
-
             rows = new ArrayList<>();
+            rowGroup = new RowGroup(rows, grp_ite + 1);
+
             int j = 0;//compteur de ligne pour pas relire la meme ligne
             for (int row_ite = 0; row_ite < Groups[grp_ite]; row_ite++) {//Boucle sur le nombre de rangées par groupe
                 s = new ArrayList<>();
@@ -175,11 +176,11 @@ public class Parser {
                     s.add(new Seat());
                 }
 
-                rows.add(new Row(s, distance, row_ite + 1));
+                rows.add(new Row(rowGroup, s, distance, row_ite + 1));
                 j++;
             }
 
-            groupsList.add(new RowGroup(rows, grp_ite + 1));
+            groupsList.add(rowGroup);
         }
 
 

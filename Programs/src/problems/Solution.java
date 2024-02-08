@@ -105,12 +105,15 @@ public class Solution {
      * Builds a string that respects the required output format of a solution.
      * <p>
      * Returned String format:
+     * <pre>
      * 3 9 25/26    // Number of used rows, sum of distances from the scene, filling rate (used seats/total seats)
      * 1 1 1 2 7    // Groups 1 and 2 on Row 1 of RowGroup 1, for a total of 7 used seats
      * 1 3 3 4 11   // Groups 3 and 4 on Row 3 of RowGroup 1, for a total of 11 used seats
      * 1 5 5 6 7    // Groups 5 and 6 on Row 5 of RowGroup 1, for a total of 7 used seats
      * Non placés
      * -1           // Number of the unplaced Persons or -1 if all Persons have a Seat.
+     * </pre>
+     * </p>
      *
      * @return the formated string
      */

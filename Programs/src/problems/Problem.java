@@ -11,4 +11,7 @@ public class Problem extends AbstractProblem{
         super(name,r,p,k,q,room,folderName,numeroReservation);
     }
 
+    public Problem(Problem problem) {
+        super(problem);
+    }
 }

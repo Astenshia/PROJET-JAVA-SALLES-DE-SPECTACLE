@@ -1,7 +1,6 @@
 package src.utils;
 
 import src.problems.Problem;
-import src.roomComponents.Room;
 import src.roomComponents.Row;
 
 import java.io.File;

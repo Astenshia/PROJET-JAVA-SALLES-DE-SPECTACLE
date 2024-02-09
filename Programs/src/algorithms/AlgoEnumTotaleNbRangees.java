@@ -141,7 +141,9 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
     private Solution findBestSolutionInRowRepartitionWorker(AbstractProblem problem,
                                                             ArrayList<Pair<Integer, Integer>> rowList, int rowIndex,
                                                             int filledRows, int sumDistance, int totalSeats, int filledSeats) {
-        // TODO : reset problem.room entre deux appels pour pouvoir à nouveau travailler dessus
+        // TODO : créer un constructeur par recopie (un vrai) de Problème afin de reset problem entre deux appels
+        //  (pour pouvoir à nouveau travailler dessus)
+
         if (problem.getReservations().isEmpty()) {
             return new Solution(problem, this.getName(), rowList.size(), filledRows, sumDistance, totalSeats, null, 0);
         }
@@ -149,7 +151,7 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         ArrayList<Solution> solutions = new ArrayList<>();
 
         // for (int i = 0; i < rowList.size(); i++) {
-        //     if (problem.getRoom().getRowGroups().get())
+        //     if (problem.getRoom().getRowGroup(rowList.get(i).getValue0()).getRow(rowList.get(i).getValue1()).enoughFor());
         // }
         return null;
     }

@@ -27,8 +27,8 @@ public class Runner {
         // exécution de chaque algo pour chaque problème et ajout de la solution trouvée dans la liste de solutions
         for (Problem problem : this.problems) {
             for (AbstractAlgo algo : this.algos) {
-                solutions.add(algo.execute(problem));
-                problem = problem.copy();
+                // copie du problème pour que chaque algorithme ait sa propre instance de travail
+                solutions.add(algo.execute(problem.copy()));
             }
         }
         this.solutions = solutions;

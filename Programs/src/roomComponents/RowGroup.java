@@ -47,4 +47,8 @@ public class RowGroup {
     public void setRows(List<Row> rows) {
         this.rows = rows;
     }
+
+    public Row getRow(int i) {
+        return this.rows.get(i);
+    }
 }

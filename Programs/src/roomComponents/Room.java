@@ -1,5 +1,6 @@
 package src.roomComponents;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,5 +39,9 @@ public class Room {
 
     public int getNbRowGroups() {
         return this.rowGroups.size();
+    }
+
+    public RowGroup getRowGroup(int i) {
+        return this.rowGroups.get(i);
     }
 }

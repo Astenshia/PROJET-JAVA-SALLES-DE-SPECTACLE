@@ -1,9 +1,8 @@
 package src.algorithms;
 
+import org.javatuples.Pair;
 import src.problems.AbstractProblem;
-import src.problems.Problem;
 import src.problems.Solution;
-import src.roomComponents.Row;
 import src.roomComponents.RowGroup;
 
 import java.util.ArrayList;
@@ -29,10 +28,10 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      *
      * @param rowGroups   liste des groupes de rangées à traiter
      * @param rowDistance distance minimum entre deux rangées d'un même groupe de rangées
-     * @return la liste des répartitions possibles
+     * @return la liste des répartitions possibles. Chaque rangée est identifiée par l'index de son groupe de rangées et par son index dans ce groupe.
      */
-    public ArrayList<ArrayList<Row>> getAllRowsRepartitions(ArrayList<RowGroup> rowGroups, int rowDistance) {
-        ArrayList<ArrayList<Row>> rowRepartitions = new ArrayList<>();
+    public ArrayList<ArrayList<Pair<Integer, Integer>>> getAllRowsRepartitions(ArrayList<RowGroup> rowGroups, int rowDistance) {
+        ArrayList<ArrayList<Pair<Integer, Integer>>> rowRepartitions = new ArrayList<>();
 
         // utilisation du Worker récursif pour calculer les répartitions possibles
         getAllRowsRepartitionsWorker(rowGroups, rowDistance, rowRepartitions, new ArrayList<>(), 0, 0);
@@ -57,13 +56,13 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      *
      * @param rowGroups   la liste des groupes de rangées à traiter
      * @param rowDistance distance minimum entre deux rangées d'un même groupe de rangées
-     * @param L           la liste des répartitions possibles
-     * @param T           une liste de rangées, qui représente une répartition possible
+     * @param L           la liste des répartitions possibles. Chaque rangée est identifiée par l'index de son groupe de rangées et par son index dans ce groupe.
+     * @param T           une liste de rangées, qui représente une répartition possible. Chaque rangée est identifiée par l'index de son groupe de rangées et par son index dans ce groupe.
      * @param g           index de parcours du groupe de rangées
      * @param r           index de parcours d'une rangée
      */
     private void getAllRowsRepartitionsWorker(ArrayList<RowGroup> rowGroups, int rowDistance,
-                                              ArrayList<ArrayList<Row>> L, ArrayList<Row> T, int g, int r) {
+                                              ArrayList<ArrayList<Pair<Integer, Integer>>> L, ArrayList<Pair<Integer, Integer>> T, int g, int r) {
         // si on a atteint la fin des groupes de rangées (plus aucune rangée à ajouter)
         // alors ajouter la répartition actuelle à la liste de répartitions
         if (g >= rowGroups.size()) {
@@ -72,8 +71,8 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         }
         // coup gauche
         // duplication de la liste de rangées (représentant une répartition) et ajout de la rangée actuelle
-        ArrayList<Row> tmp = new ArrayList<>(T);
-        tmp.add(rowGroups.get(g).getRows().get(r));
+        ArrayList<Pair<Integer, Integer>> tmp = new ArrayList<>(T);
+        tmp.add(new Pair(g, r));
         // calcul des nouveaux index
         int rg = (r + 1 + rowDistance >= rowGroups.get(g).getNbRows()) ? 0 : r + 1 + rowDistance;
         int gg = (r + 1 + rowDistance >= rowGroups.get(g).getNbRows()) ? g + 1 : g;
@@ -97,13 +96,11 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
     @Override
     public Solution execute(AbstractProblem problem) {
         long start = System.nanoTime();
-        ArrayList<ArrayList<Row>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
+        ArrayList<ArrayList<Pair<Integer, Integer>>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
 
-        Solution bestSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(0));
+        Solution bestSolution = findBestSolutionInRowRepartition(problem.copy(), rowsRepartition.get(0));
         Solution tmpSolution;
         for (int i = 1; i < rowsRepartition.size(); i++) {
-            // TODO: reset problem.room pour pouvoir à nouveau travailler dessus
-
             tmpSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(i));
 
             if (bestSolution.getFilledRows() > tmpSolution.getFilledRows()) {
@@ -120,11 +117,16 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
      *
      * @param problem
-     * @param rowsList
+     * @param rowList
      * @return
      */
-    private Solution findBestSolutionInRowRepartition(AbstractProblem problem, ArrayList<Row> rowsList) {
-        return findBestSolutionInRowRepartitionWorker(problem, rowsList, 0);
+    private Solution findBestSolutionInRowRepartition(AbstractProblem problem, ArrayList<Pair<Integer, Integer>> rowList) {
+        int filledRows = 0;
+        int sumDistance = 0;
+        int totalSeats = 0;
+        int filledSeats = 0;
+        return findBestSolutionInRowRepartitionWorker(problem, rowList, 0,
+                filledRows, sumDistance, totalSeats, filledSeats);
     }
 
     /**
@@ -136,8 +138,19 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      * @param rowIndex index de parcours de la liste de rangées
      * @return
      */
-    private Solution findBestSolutionInRowRepartitionWorker(AbstractProblem problem, ArrayList<Row> rowList, int rowIndex) {
+    private Solution findBestSolutionInRowRepartitionWorker(AbstractProblem problem,
+                                                            ArrayList<Pair<Integer, Integer>> rowList, int rowIndex,
+                                                            int filledRows, int sumDistance, int totalSeats, int filledSeats) {
         // TODO : reset problem.room entre deux appels pour pouvoir à nouveau travailler dessus
+        if (problem.getReservations().isEmpty()) {
+            return new Solution(problem, this.getName(), rowList.size(), filledRows, sumDistance, totalSeats, null, 0);
+        }
+
+        ArrayList<Solution> solutions = new ArrayList<>();
+
+        // for (int i = 0; i < rowList.size(); i++) {
+        //     if (problem.getRoom().getRowGroups().get())
+        // }
         return null;
     }
 }

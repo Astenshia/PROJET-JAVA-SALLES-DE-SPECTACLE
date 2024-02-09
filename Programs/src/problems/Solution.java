@@ -19,6 +19,7 @@ public class Solution {
     private int filledSeats;
     private int totalSeats;
     private List<PersonsGroup> unplacedGroups;
+
     /**
      * Stores the runtime for this solution in nanoseconds.
      */

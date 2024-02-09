@@ -14,13 +14,13 @@ public class Room {
      * Creates a blank copy of a Room, as if it was empty again.
      * Hence, the Persons that could be associated to different Seats in the Room won't be associated anymore.
      * Also, all variables giving information about the Room's fullness will be reset.
-     * @param room the Room to copy
      */
-    public Room(Room room) {
-        this.rowGroups = new ArrayList<>();
-        for (RowGroup rowGroup : room.rowGroups) {
-            this.rowGroups.add(new RowGroup(rowGroup));
+    public Room copy() {
+        ArrayList<RowGroup> groupsList = new ArrayList<>();
+        for (RowGroup rowGroup : this.rowGroups) {
+            groupsList.add(rowGroup.copy());
         }
+        return new Room(groupsList);
     }
 
     public String toString() {

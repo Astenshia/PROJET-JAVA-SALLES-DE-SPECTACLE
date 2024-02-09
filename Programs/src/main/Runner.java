@@ -2,7 +2,6 @@ package src.main;
 
 import src.algorithms.AbstractAlgo;
 import src.problems.AbstractProblem;
-import src.problems.Problem;
 import src.problems.Solution;
 
 import java.util.ArrayList;
@@ -32,6 +31,34 @@ public class Runner {
             }
         }
         this.solutions = solutions;
+    }
+
+    public void printSynthesis() {
+
+        int cellSize = 20;
+        int count = 0;
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("%" + cellSize + "s", " | "));
+        for (AbstractAlgo algo : algos) {
+            sb.append(String.format("%" + cellSize + "s", algo.getName() + " | "));
+        }
+        sb.append(System.lineSeparator());
+
+        for (Solution solution : this.solutions) {
+            if (count == 0) {
+                sb.append(String.format("%" + cellSize + "s", solution.getProblem().getName() + " | "));
+            }
+
+            sb.append(String.format("%" + cellSize + "s", solution.getRunTime() + " | "));
+            count += 1;
+
+            if (count == algos.size()) {
+                count = 0;
+                sb.append(System.lineSeparator());
+            }
+        }
+        System.out.println(sb);
     }
 
     public void printAllSolutions() {

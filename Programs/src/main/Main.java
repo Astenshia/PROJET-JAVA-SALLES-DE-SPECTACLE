@@ -2,7 +2,7 @@ package src.main;
 
 import src.algorithms.AbstractAlgo;
 import src.algorithms.AlgoHeuristique1;
-import src.problems.Problem;
+import src.problems.AbstractProblem;
 import src.utils.Parser;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class Main {
         // algos.add(new AlgoHeuristique2());
         // algos.add(new AlgoEnumTotale());
 
-        ArrayList<Problem> problems = new ArrayList<>();
+        ArrayList<AbstractProblem> problems = new ArrayList<>();
         problems.add(Parser.createProblem("Salle01", 1));
 
         Runner r1 = new Runner(algos, problems);

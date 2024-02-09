@@ -27,6 +27,8 @@ public abstract class AbstractProblem {
         this.numeroReservation = numeroReservation;
     }
 
+    abstract public Problem copy();
+
     public String getName() {
         return name;
     }

@@ -10,10 +10,10 @@ import java.util.List;
 
 public class Runner {
     private List<AbstractAlgo> algos;
-    private List<Problem> problems;
+    private List<AbstractProblem> problems;
     private List<Solution> solutions;
 
-    public Runner(List<AbstractAlgo> algos, List<Problem> problems) {
+    public Runner(List<AbstractAlgo> algos, List<AbstractProblem> problems) {
         this.algos = algos;
         this.problems = problems;
     }
@@ -25,7 +25,7 @@ public class Runner {
         List<Solution> solutions = new ArrayList<>();
 
         // exécution de chaque algo pour chaque problème et ajout de la solution trouvée dans la liste de solutions
-        for (Problem problem : this.problems) {
+        for (AbstractProblem problem : this.problems) {
             for (AbstractAlgo algo : this.algos) {
                 // copie du problème pour que chaque algorithme ait sa propre instance de travail
                 solutions.add(algo.execute(problem.copy()));

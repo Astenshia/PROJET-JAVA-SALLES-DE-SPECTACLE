@@ -1,5 +1,8 @@
 package src.roomComponents;
 
+import src.persons.Person;
+import src.persons.PersonsGroup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +37,39 @@ public class Row {
         return new Row(this.rowGroup, seatsList, this.getSceneDistance(), this.getNumRow());
     }
 
-    public boolean enoughFor(int nbPersons, int p){
+    public boolean enoughFor(int nbPersons) {
         return availableSeats >= nbPersons;
     }
 
-    public void add(int nbPersons, int p) {
-        availableSeats -= nbPersons + p;
-        used = true;
+    /**
+     * Ajoute un nombre de personnes sur la ligne
+     *
+     * @param group le group de personnes à ajouter à la ligne
+     * @param q     distance minimum entre deux groupes de personnes
+     * @return true si l'ajout est réussi, faux sinon (pas assez de place sur la ligne).
+     */
+    public boolean addPersonsGroup(PersonsGroup group, int q) {
+        if (enoughFor(group.getNbPersons())) {
+            // ajout de chaque personne du groupe
+            for (Person person : group.getPersons()) {
+                person.setSeat(this.getSeats().get(this.getCapacity() - this.availableSeats));
+                this.getSeats().get(this.getCapacity() - this.availableSeats).setPerson(person);
+                availableSeats--;
+            }
 
+
+            for (int i = 0; i < q; i++) {
+                if (this.getCapacity() - this.availableSeats < this.getCapacity()) {
+                    this.getSeats().get(this.getCapacity() - this.availableSeats).setOutOfOrder(true);
+                    availableSeats--;
+                }
+            }
+            used = true;
+            return true;
+
+        } else {
+            return false;
+        }
     }
 
     public boolean isUsed() {

@@ -44,8 +44,8 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
 
                     if (!securityRow) {
-                        if (rows.get(j).enoughFor(personsGroup.getNbPersons(), p)) {
-                            rows.get(j).add(personsGroup.getNbPersons(), p);
+                        if (rows.get(j).enoughFor(personsGroup.getNbPersons())) {
+                            rows.get(j).addPersonsGroup(personsGroup, p);
                             filledSeats += personsGroup.getNbPersons();
 
                             if (!rows.get(j).isUsed()) {

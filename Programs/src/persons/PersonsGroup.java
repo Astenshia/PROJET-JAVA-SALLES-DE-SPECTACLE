@@ -21,16 +21,9 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
     /**
      * Creates a blank copy of a PersonsGroup.
      * Hence, the Seats that could be associated to different Persons in the PersonsGroup won't be associated anymore.
-     *
-     * @param personsGroup the PersonsGroup to copy
      */
-    public PersonsGroup(PersonsGroup personsGroup) {
-        this.persons = new ArrayList<>();
-        for (int i = 0; i < personsGroup.persons.size(); i++) {
-            this.persons.add(new Person(this));
-        }
-        this.numGroup = personsGroup.numGroup;
-        seated = false;
+    public PersonsGroup copy() {
+        return new PersonsGroup(this.getNbPersons(), this.getNumGroup());
     }
 
     public List<Person> getPersons() {

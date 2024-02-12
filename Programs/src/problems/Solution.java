@@ -26,7 +26,7 @@ public class Solution {
     private long runTime;
 
     public Solution(AbstractProblem problem, String algoName, int filledRows, int sumDistance, int filledSeats,
-                    int totalSeats, List<PersonsGroup> unplacedGroups, long runTime) {
+                    int totalSeats, List<PersonsGroup> unplacedGroups) {
         this.problem = problem;
         this.algoName = algoName;
         this.filledRows = filledRows;
@@ -34,7 +34,6 @@ public class Solution {
         this.filledSeats = filledSeats;
         this.totalSeats = totalSeats;
         this.unplacedGroups = unplacedGroups;
-        this.runTime = runTime;
     }
 
     public AbstractProblem getProblem() {

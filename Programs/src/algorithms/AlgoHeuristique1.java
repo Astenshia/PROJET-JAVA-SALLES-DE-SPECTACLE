@@ -13,7 +13,6 @@ public class AlgoHeuristique1 extends AbstractAlgo {
 
     @Override
     public Solution execute(AbstractProblem problem) {
-        long start = System.nanoTime();
 
         // déclaration des variables utilisée pour la construction d'une Solution
         int filledRows = 0;
@@ -101,8 +100,7 @@ public class AlgoHeuristique1 extends AbstractAlgo {
             unplacedPersonsGroups.add(problem.getReservations().get(i));
         }
 
-        long end = System.nanoTime();
         return new Solution(problem, this.getClass().getSimpleName(),
-                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups, end - start);
+                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups);
     }
 }

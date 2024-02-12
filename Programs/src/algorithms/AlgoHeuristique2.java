@@ -14,7 +14,6 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
     @Override
     public Solution execute(AbstractProblem problem) {
-        long start = System.nanoTime();
 
         ArrayList<PersonsGroup> unplacedPersonsGroups = new ArrayList<>(problem.getReservations());
         Collections.sort(unplacedPersonsGroups);
@@ -65,8 +64,7 @@ public class AlgoHeuristique2 extends AbstractAlgo {
 
         }
 
-        long end = System.nanoTime();
         return new Solution(problem, this.getClass().getSimpleName(),
-                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups, end - start);
+                filledRows, sumDistance, filledSeats, totalSeats, unplacedPersonsGroups);
     }
 }

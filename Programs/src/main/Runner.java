@@ -2,6 +2,7 @@ package src.main;
 
 import src.algorithms.AbstractAlgo;
 import src.problems.AbstractProblem;
+import src.problems.Problem;
 import src.problems.Solution;
 
 import java.util.ArrayList;
@@ -23,11 +24,24 @@ public class Runner {
         // cela permet de remplacer automatiquement les anciennes solutions, sans avoir à les modifier dans le tableau
         List<Solution> solutions = new ArrayList<>();
 
+        // déclaration des objets utilisés dans la boucle
+        Solution currentSolution;
+        Problem currentProblem;
+
         // exécution de chaque algo pour chaque problème et ajout de la solution trouvée dans la liste de solutions
         for (AbstractProblem problem : this.problems) {
             for (AbstractAlgo algo : this.algos) {
                 // copie du problème pour que chaque algorithme ait sa propre instance de travail
-                solutions.add(algo.execute(problem.copy()));
+                currentProblem = problem.copy();
+
+                // exécution de l'algorithme actuel avec mesure du temps CPU
+                long start = System.nanoTime();
+                currentSolution = algo.execute(currentProblem);
+                long end = System.nanoTime();
+                currentSolution.setRunTime(end - start);
+
+                // ajout de la solution à l'ensemble des solutions
+                solutions.add(currentSolution);
             }
         }
         this.solutions = solutions;

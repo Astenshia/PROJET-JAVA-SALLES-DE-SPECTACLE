@@ -95,7 +95,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      */
     @Override
     public Solution execute(AbstractProblem problem) {
-        long start = System.nanoTime();
         ArrayList<ArrayList<Pair<Integer, Integer>>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
 
         Solution bestSolution = findBestSolutionInRowRepartition(problem.copy(), rowsRepartition.get(0));
@@ -108,8 +107,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
             }
         }
 
-        long end = System.nanoTime();
-        bestSolution.setRunTime(end - start);
         return bestSolution;
     }
 
@@ -145,7 +142,7 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         //  (pour pouvoir à nouveau travailler dessus)
 
         if (problem.getReservations().isEmpty()) {
-            return new Solution(problem, this.getName(), rowList.size(), filledRows, sumDistance, totalSeats, null, 0);
+            return new Solution(problem, this.getName(), rowList.size(), filledRows, sumDistance, totalSeats, null);
         }
 
         ArrayList<Solution> solutions = new ArrayList<>();

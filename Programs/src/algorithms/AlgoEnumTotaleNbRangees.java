@@ -10,6 +10,29 @@ import java.util.ArrayList;
 public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
     /**
+     * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
+     *
+     * @param problem
+     * @return
+     */
+    @Override
+    public Solution execute(AbstractProblem problem) {
+        ArrayList<ArrayList<Pair<Integer, Integer>>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
+
+        Solution bestSolution = findBestSolutionInRowRepartition(problem.copy(), rowsRepartition.get(0));
+        Solution tmpSolution;
+        for (int i = 1; i < rowsRepartition.size(); i++) {
+            tmpSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(i));
+
+            if (bestSolution.getFilledRows() > tmpSolution.getFilledRows()) {
+                bestSolution = tmpSolution;
+            }
+        }
+
+        return bestSolution;
+    }
+
+    /**
      * Calcule toutes les répartitions possible des rangées dans une liste de groupes de rangées.
      * Fonction appelant son worker récursif getAllRowsRepartitionsWorker().
      * <p>
@@ -85,29 +108,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         int rd = (r + 1 >= rowGroups.get(g).getNbRows()) ? 0 : r + 1;
         getAllRowsRepartitionsWorker(rowGroups, rowDistance, L, T, gd, rd);
         // fin coup droit
-    }
-
-    /**
-     * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
-     *
-     * @param problem
-     * @return
-     */
-    @Override
-    public Solution execute(AbstractProblem problem) {
-        ArrayList<ArrayList<Pair<Integer, Integer>>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
-
-        Solution bestSolution = findBestSolutionInRowRepartition(problem.copy(), rowsRepartition.get(0));
-        Solution tmpSolution;
-        for (int i = 1; i < rowsRepartition.size(); i++) {
-            tmpSolution = findBestSolutionInRowRepartition(problem, rowsRepartition.get(i));
-
-            if (bestSolution.getFilledRows() > tmpSolution.getFilledRows()) {
-                bestSolution = tmpSolution;
-            }
-        }
-
-        return bestSolution;
     }
 
     /**

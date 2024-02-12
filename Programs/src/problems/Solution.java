@@ -25,10 +25,41 @@ public class Solution {
      */
     private long runTime;
 
+    /**
+     *
+     * @param problem le problème que la solution résout
+     * @param algoName l'algorithme utilisé pour résoudre
+     * @param filledRows nombre de rangées engagées dans la Solution
+     * @param sumDistance la somme des distances des rangées engagées
+     * @param filledSeats le nombre de sièges engagés
+     * @param totalSeats le nombre total de sièges des rangées engagées
+     * @param unplacedGroups la liste des groupes de personnes non placés
+     */
     public Solution(AbstractProblem problem, String algoName, int filledRows, int sumDistance, int filledSeats,
                     int totalSeats, List<PersonsGroup> unplacedGroups) {
         this.problem = problem;
         this.algoName = algoName;
+        this.filledRows = filledRows;
+        this.sumDistance = sumDistance;
+        this.filledSeats = filledSeats;
+        this.totalSeats = totalSeats;
+        this.unplacedGroups = unplacedGroups;
+    }
+
+    /**
+     * Construit une solution "temporaire", ne prennant pas en compte le problème, l'algorithme et le temps d'exécution.
+     * Permet par exemple de comparer des solutions dans un algorithme sans avoir besoin de créer un objet plus complexe.
+     *
+     * @param filledRows nombre de rangées engagées dans la Solution
+     * @param sumDistance la somme des distances des rangées engagées
+     * @param filledSeats le nombre de sièges engagés
+     * @param totalSeats le nombre total de sièges des rangées engagées
+     * @param unplacedGroups la liste des groupes de personnes non placés
+     */
+    public Solution(int filledRows, int sumDistance, int filledSeats,
+                    int totalSeats, List<PersonsGroup> unplacedGroups) {
+        this.problem = null;
+        this.algoName = null;
         this.filledRows = filledRows;
         this.sumDistance = sumDistance;
         this.filledSeats = filledSeats;
@@ -41,7 +72,7 @@ public class Solution {
     }
 
     public String getAlgoName() {
-        return this.algoName;
+        return String.valueOf(this.algoName);
     }
 
     public int getFilledRows() {
@@ -208,10 +239,10 @@ public class Solution {
         String time = java.time.LocalDateTime.now().toString();
 
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy.HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH'h'mm");
         String dateStr = sdf.format(date);
 
-        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName + "-D-" + dateStr;
+        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName + "-D" + dateStr;
 
 
         //creation fichier et ecriture

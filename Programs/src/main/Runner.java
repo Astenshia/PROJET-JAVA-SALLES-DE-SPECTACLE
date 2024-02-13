@@ -27,6 +27,8 @@ public class Runner {
         // déclaration des objets utilisés dans la boucle
         Solution currentSolution;
         Problem currentProblem;
+        long start;
+        long end;
 
         // exécution de chaque algo pour chaque problème et ajout de la solution trouvée dans la liste de solutions
         for (AbstractProblem problem : this.problems) {
@@ -35,9 +37,9 @@ public class Runner {
                 currentProblem = problem.copy();
 
                 // exécution de l'algorithme actuel avec mesure du temps CPU
-                long start = System.nanoTime();
+                start = System.nanoTime();
                 currentSolution = algo.execute(currentProblem);
-                long end = System.nanoTime();
+                end = System.nanoTime();
                 currentSolution.setRunTime(end - start);
 
                 // ajout de la solution à l'ensemble des solutions

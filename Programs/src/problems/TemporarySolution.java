@@ -49,6 +49,10 @@ public class TemporarySolution {
         return totalUnplacedGroups;
     }
 
+    public double getFillingRate() {
+        return (double) this.getFilledSeats() / (double) this.getTotalSeats();
+    }
+
     public void setFilledRows(int filledRows) {
         this.filledRows = filledRows;
     }

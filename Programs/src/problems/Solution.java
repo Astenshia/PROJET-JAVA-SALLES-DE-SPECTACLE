@@ -81,6 +81,9 @@ public class Solution {
     public long getRunTimeMicroSeconds() {
         return this.runTime / 1000;
     }
+    public long getRunTimeMilliSeconds() {
+        return this.getRunTimeMicroSeconds() / 1000;
+    }
 
     //TODO: remove all setters ?
     public void setFilledRows(int filledRows) {

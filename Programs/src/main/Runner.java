@@ -51,7 +51,7 @@ public class Runner {
 
     public void printSynthesis() {
 
-        int cellSize = 20;
+        int cellSize = 35;
         int count = 0;
         StringBuilder sb = new StringBuilder();
 
@@ -66,7 +66,7 @@ public class Runner {
                 sb.append(String.format("%" + cellSize + "s", solution.getProblem().getName() + " | "));
             }
 
-            sb.append(String.format("%" + cellSize + "s", solution.getRunTime() + " | "));
+            sb.append(String.format("%" + cellSize + "s", solution.getRunTimeMilliSeconds() + " ms | "));
             count += 1;
 
             if (count == algos.size()) {

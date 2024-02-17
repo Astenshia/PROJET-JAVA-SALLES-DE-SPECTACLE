@@ -48,7 +48,7 @@ public class PersonsGroup implements Comparable<PersonsGroup> {
 
     @Override
     public String toString() {
-        return String.valueOf(persons.size());
+        return String.valueOf(this.getNumGroup());
     }
 
     @Override

@@ -193,7 +193,7 @@ public class Solution {
         for (RowGroup rowGroup : this.problem.getRoom().getRowGroups()) {
             System.out.println("\nRow Group:");
             for (Row row : rowGroup.getRows()) {
-                System.out.println(row.getSeats());
+                System.out.println(row.getSeats() + " " + row.getSceneDistance());
             }
         }
 
@@ -206,6 +206,8 @@ public class Solution {
                 + this.sumDistance
                 + "\nTaux de remplissage : "
                 + this.filledSeats + "/" + this.totalSeats
+                + "\nGroupes non placés : "
+                + this.getUnplacedGroups()
                 + "\n\nExécutée en " + this.getRunTimeMicroSeconds() + " microseconds."
                 + "\n############";
     }

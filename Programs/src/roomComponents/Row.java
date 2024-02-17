@@ -45,29 +45,37 @@ public class Row {
      * Ajoute un nombre de personnes sur la ligne
      *
      * @param group le group de personnes à ajouter à la ligne
-     * @param q     distance minimum entre deux groupes de personnes
+     * @param peopleDistance     distance minimum entre deux groupes de personnes
      * @return true si l'ajout est réussi, faux sinon (pas assez de place sur la ligne).
      */
-    public boolean addPersonsGroup(PersonsGroup group, int q) {
+    public boolean addPersonsGroup(PersonsGroup group, int peopleDistance) {
         if (enoughFor(group.getNbPersons())) {
-            // ajout de chaque personne du groupe
+            // le premier siège auquel on peut ajouter de nouvelles personnes,
+            // en considérant que le remplissage se fait de la gauche vers la droite pour des index allant de 0 à n.
+            int currentSeat = this.getCapacity() - this.availableSeats;
+
+            // ajout de chaque personne du groupe à partir du premier siège disponible
             for (Person person : group.getPersons()) {
-                person.setSeat(this.getSeats().get(this.getCapacity() - this.availableSeats));
-                this.getSeats().get(this.getCapacity() - this.availableSeats).setPerson(person);
-                availableSeats--;
+                person.setSeat(this.getSeats().get(currentSeat));
+                this.getSeats().get(currentSeat).setPerson(person);
+                this.availableSeats--;
+                currentSeat++;
             }
 
-
-            for (int i = 0; i < q; i++) {
-                if (this.getCapacity() - this.availableSeats < this.getCapacity()) {
-                    this.getSeats().get(this.getCapacity() - this.availableSeats).setOutOfOrder(true);
-                    availableSeats--;
+            // on marque les sièges indisponibles pour chaque siège compris dans la distance minimale
+            for (int i = 0; i < peopleDistance; i++) {
+                if (currentSeat < this.getCapacity()) {
+                    this.getSeats().get(currentSeat).setOutOfOrder(true);
+                    this.availableSeats--;
+                    currentSeat++;
                 }
             }
-            used = true;
+            // la rangée est marquée comme utilisée
+            this.used = true;
+            // l'ajout a pu se faire car il y avait assez de place sur la rangée
             return true;
-
         } else {
+            // l'ajout ne peut pas se faire car il n'y a pas assez de place sur la rangée
             return false;
         }
     }

@@ -46,27 +46,6 @@ public class Solution {
         this.unplacedGroups = unplacedGroups;
     }
 
-    /**
-     * Construit une solution "temporaire", ne prennant pas en compte le problème, l'algorithme et le temps d'exécution.
-     * Permet par exemple de comparer des solutions dans un algorithme sans avoir besoin de créer un objet plus complexe.
-     *
-     * @param filledRows nombre de rangées engagées dans la Solution
-     * @param sumDistance la somme des distances des rangées engagées
-     * @param filledSeats le nombre de sièges engagés
-     * @param totalSeats le nombre total de sièges des rangées engagées
-     * @param unplacedGroups la liste des groupes de personnes non placés
-     */
-    public Solution(int filledRows, int sumDistance, int filledSeats,
-                    int totalSeats, List<PersonsGroup> unplacedGroups) {
-        this.problem = null;
-        this.algoName = null;
-        this.filledRows = filledRows;
-        this.sumDistance = sumDistance;
-        this.filledSeats = filledSeats;
-        this.totalSeats = totalSeats;
-        this.unplacedGroups = unplacedGroups;
-    }
-
     public AbstractProblem getProblem() {
         return problem;
     }

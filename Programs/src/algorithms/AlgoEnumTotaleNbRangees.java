@@ -423,7 +423,7 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
                         tmpFilledRows,
                         tmpSumDistance,
                         tmpTotalSeats,
-                        filledSeats + reservations.get(indexBestRow),
+                        filledSeats + reservations.get(indexReservation),
                         totalUnplacedGroups,
                         tmpRowsCapacityLeft,
                         tmpRowsUsed,

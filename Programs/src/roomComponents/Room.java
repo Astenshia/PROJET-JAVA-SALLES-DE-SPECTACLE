@@ -2,7 +2,6 @@ package src.roomComponents;
 
 import org.javatuples.Pair;
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 

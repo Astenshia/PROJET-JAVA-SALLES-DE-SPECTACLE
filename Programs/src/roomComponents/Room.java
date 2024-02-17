@@ -1,5 +1,7 @@
 package src.roomComponents;
 
+import org.javatuples.Pair;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Room {
         return new Room(groupsList);
     }
 
+    @Override
     public String toString() {
         int groupSize = rowGroups.size();
         StringBuilder res = new StringBuilder(groupSize + " RowGroups. \n");
@@ -41,7 +44,31 @@ public class Room {
         return this.rowGroups.size();
     }
 
-    public RowGroup getRowGroup(int i) {
-        return this.rowGroups.get(i);
+    /**
+     * Obtenir un groupe de rangées identifié par son index.
+     * @param rowGroupIndex l'index du groupe de rangées
+     * @return un objet RowGroup
+     */
+    public RowGroup getRowGroup(int rowGroupIndex) {
+        return this.rowGroups.get(rowGroupIndex);
+    }
+
+    /**
+     * Obtenir une rangée identifiée par son index de groupe de rangées et son index dans ce groupe.
+     * @param rowGroupIndex l'index du groupe
+     * @param rowIndex l'index de la rangée dans le groupe
+     * @return un objet rangée
+     */
+    public Row getRow(int rowGroupIndex, int rowIndex){
+        return this.getRowGroup(rowGroupIndex).getRow(rowIndex);
+    }
+
+    /**
+     * Obtenir une rangée identifiée par son index de groupe de rangées et son index dans ce groupe.
+     * @param rowLocation la paire d'entiers contenant l'index du groupe de rangées et l'index de la rangée dans ce groupe
+     * @return un objet rangée
+     */
+    public Row getRow(Pair<Integer, Integer> rowLocation) {
+        return this.getRow(rowLocation.getValue0(), rowLocation.getValue1());
     }
 }

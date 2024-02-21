@@ -14,26 +14,44 @@ import java.util.Collections;
 public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
     /**
+     * la distance minimale entre deux groupes de personnes
+     */
+    private int peopleDistance;
+
+    /**
+     * la liste des capacitées de personnes de chaque rangée
+     */
+    private ArrayList<Integer> rowsOriginalCapacity;
+
+    /**
+     * la liste des distances à la scène de chaque rangée
+     */
+    private ArrayList<Integer> rowsDistances;
+
+    /**
+     * la liste des groupes de personnes à placer
+     */
+    private ArrayList<Integer> reservations;
+
+    /**
      * La meilleure solution est déterminée en fonction du nombre de rangées utilisées.
      *
-     * @param problem
-     * @return
+     * @param problem le problem à résoudre
+     * @return la meilleure solution
      */
     @Override
     public Solution execute(AbstractProblem problem) {
+        this.peopleDistance = problem.getPeopleDistance();
+
         // calcul de toutes les répartitions possibles des rangées
         ArrayList<ArrayList<Pair<Integer, Integer>>> rowsRepartition = getAllRowsRepartitions((ArrayList<RowGroup>) problem.getRoom().getRowGroups(), problem.getRowDistance());
 
         // convertion des réservations de Groupes de Personnes vers une liste des tailles de chaque groupe de personne
-        ArrayList<Integer> reservations;
-        reservations = new ArrayList<>();
+        this.reservations = new ArrayList<>();
         for (PersonsGroup personsGroup : problem.getReservations()) {
-            reservations.add(personsGroup.getNbPersons());
+            this.reservations.add(personsGroup.getNbPersons());
         }
 
-        // déclaration des variables qui seront utilisées dans
-        ArrayList<Integer> rowsOriginalCapacity;
-        ArrayList<Integer> rowsDistances;
         Row row;
         int indexBestRowRepartition = 0;
 
@@ -43,8 +61,8 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
         // initialisation d'une "fausse" meilleure solution, qui ne place par défaut aucun groupe
         bestSolution = new Pair<>(
-                new ArrayList<>(Collections.nCopies(reservations.size(), -1)),
-                new TemporarySolution(0, 0, 0, 0, reservations.size())
+                new ArrayList<>(Collections.nCopies(this.reservations.size(), -1)),
+                new TemporarySolution(0, 0, 0, 0, this.reservations.size())
         );
 
         // pour chaque répartition de rangées possible, on trouve une solution, puis on la compare à la meilleure
@@ -52,22 +70,17 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         for (int i = 0; i < rowsRepartition.size(); i++) {
             // on recopie la capacité et la distance à la scène de chaque rangée dans la répartition actuelle
             // ces listes seront passées au worker récursif
-            rowsOriginalCapacity = new ArrayList<>();
-            rowsDistances = new ArrayList<>();
+            this.rowsOriginalCapacity = new ArrayList<>();
+            this.rowsDistances = new ArrayList<>();
             for (Pair<Integer, Integer> pair : rowsRepartition.get(i)) {
                 // on récupère la rangée à l'aide du numéro de groupe de rangées et du numéro de rangée
                 row = problem.getRoom().getRow(pair);
-                rowsOriginalCapacity.add(row.getCapacity());
-                rowsDistances.add(row.getSceneDistance());
+                this.rowsOriginalCapacity.add(row.getCapacity());
+                this.rowsDistances.add(row.getSceneDistance());
             }
 
             // fonction récursive trouvant la meilleure solution parmis cette répartition de rangées
-            tmpSolution = findBestSolutionInRowRepartition(
-                    problem.getPeopleDistance(),
-                    rowsOriginalCapacity,
-                    rowsDistances,
-                    reservations
-            );
+            tmpSolution = findBestSolutionInRowRepartition();
 
             // si la solution actuelle est meilleure, alors on la sélectionne comme étant la meilleure
             // la solution est meilleure s'il y a plus de groupes placés,
@@ -88,12 +101,12 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
         Pair<Integer, Integer> rowAsIntegerPair;
         // pour chaque groupe à placer,
-        for (int i = 0; i < reservations.size(); i++) {
+        for (int i = 0; i < this.reservations.size(); i++) {
             // s'il a été placé alors le placer sur la bonne rangée,
             // sinon l'ajouter aux groupes non placés
             if (bestSolution.getValue0().get(i) >= 0) {
                 rowAsIntegerPair = rowsRepartition.get(indexBestRowRepartition).get(bestSolution.getValue0().get(i));
-                problem.getRoom().getRow(rowAsIntegerPair).addPersonsGroup(problem.getReservations().get(i), problem.getPeopleDistance());
+                problem.getRoom().getRow(rowAsIntegerPair).addPersonsGroup(problem.getReservations().get(i), this.peopleDistance);
             } else {
                 unplacedPersonsGroup.add(problem.getReservations().get(i));
             }
@@ -194,31 +207,18 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      * La répartition des rangées doit être telle qu'il n'y a plus à prendre en compte les contraintes de distance
      * entre les rangées : on peut insérer dans n'importe quelle rangée n'importe quand.
      *
-     * @param peopleDistance       la distance minimale entre deux groupes de personnes
-     * @param rowsOriginalCapacity la liste des capacitées de personnes de chaque rangée
-     * @param rowsDistances        la liste des distances à la scène de chaque rangée
-     * @param reservations         la liste des groupes de personnes à placer
      * @return un tuple contenant la liste des choix de rangées (par indices) et la meilleure solution trouvée.
      * Si l'index de choix de rangées vaut "-1" c'est que le groupe n'a pas été placé.
      */
-    private Pair<ArrayList<Integer>, TemporarySolution> findBestSolutionInRowRepartition(
-            final int peopleDistance,
-            final ArrayList<Integer> rowsOriginalCapacity,
-            final ArrayList<Integer> rowsDistances,
-            final ArrayList<Integer> reservations
-    ) {
+    private Pair<ArrayList<Integer>, TemporarySolution> findBestSolutionInRowRepartition() {
         return findBestSolutionInRowRepartitionWorker(
-                peopleDistance,
                 0,
                 0,
                 0,
                 0,
                 0,
-                new ArrayList<>(rowsOriginalCapacity),
-                new ArrayList<>(Collections.nCopies(rowsOriginalCapacity.size(), false)),
-                rowsOriginalCapacity,
-                rowsDistances,
-                reservations,
+                new ArrayList<>(this.rowsOriginalCapacity),
+                new ArrayList<>(Collections.nCopies(this.rowsOriginalCapacity.size(), false)),
                 0
         );
     }
@@ -233,8 +233,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      * consistant à placer les prochains groupes (en enlevant la place prise par le groupe placé si tel est le cas).
      * On détermine la meilleure solution en remontant l'arbre de récursivité.
      * </p>
-     *
-     * @param peopleDistance       la distance minimum entre deux groupes de personnes
      * @param filledRows           le nombre de rangées engagées
      * @param sumDistance          la somme des distances des rangées engagées
      * @param totalSeats           le nombre total de sièges des rangées engagées
@@ -242,15 +240,11 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
      * @param totalUnplacedGroups  le nombre de groupes non placés
      * @param rowsCapacityLeft     liste du nombre de places restantes pour chaque rangée
      * @param rowsUsed             liste des rangées engagées
-     * @param rowsOriginalCapacity liste de la capacité de chaque rangée
-     * @param rowsDistances        liste des distances à la scène de chaque rangée
-     * @param reservations         liste des réservations de groupes de personnes
      * @param indexReservation     index de parcours de la liste des réservations
      * @return un tuple contenant la liste des choix de rangées (par indices) et la meilleure solution trouvée.
      * Si l'index de choix de rangées vaut "-1" c'est que le groupe n'a pas été placé.
      */
     private Pair<ArrayList<Integer>, TemporarySolution> findBestSolutionInRowRepartitionWorker(
-            final int peopleDistance,
             int filledRows,
             int sumDistance,
             int totalSeats,
@@ -258,13 +252,10 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
             int totalUnplacedGroups,
             ArrayList<Integer> rowsCapacityLeft,
             ArrayList<Boolean> rowsUsed,
-            final ArrayList<Integer> rowsOriginalCapacity,
-            final ArrayList<Integer> rowsDistances,
-            final ArrayList<Integer> reservations,
             int indexReservation
     ) {
         // Cas de base, tous les groupes ont été placés, on retourne donc la solution actuelle
-        if (indexReservation >= reservations.size()) {
+        if (indexReservation >= this.reservations.size()) {
             // ArrayList vide qui sera ajouté à un autre ArrayList
             ArrayList<Integer> choices = new ArrayList<>(0);
             TemporarySolution solution = new TemporarySolution(
@@ -296,7 +287,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
 
         // initialisation de la meilleure solution par défaut : on ne rajoute pas le groupe actuel et on passe à la suite
         bestSolution = findBestSolutionInRowRepartitionWorker(
-                peopleDistance,
                 filledRows,
                 sumDistance,
                 totalSeats,
@@ -304,9 +294,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
                 totalUnplacedGroups + 1,
                 rowsCapacityLeft,
                 rowsUsed,
-                rowsOriginalCapacity,
-                rowsDistances,
-                reservations,
                 indexReservation + 1
         );
 
@@ -317,9 +304,9 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         bestSolution = bestSolution.setAt0(rowsChoices);
 
         // parcours de toutes les rangées
-        for (int i = 0; i < rowsOriginalCapacity.size(); i++) {
+        for (int i = 0; i < this.rowsOriginalCapacity.size(); i++) {
             // si on peut placer le groupe actuel, alors on le place dans la rangée
-            if (rowsCapacityLeft.get(i) >= reservations.get(indexReservation)) {
+            if (rowsCapacityLeft.get(i) >= this.reservations.get(indexReservation)) {
                 // initialisation des indicateurs temporaires pour un éventuel appel récursif
                 tmpFilledRows = filledRows;
                 tmpSumDistance = sumDistance;
@@ -327,30 +314,26 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
                 tmpTotalSeats = totalSeats;
                 // copie de la liste des capacités restantes de chaque rangée, et décrémentation de la capacité restante
                 tmpRowsCapacityLeft = new ArrayList<>(rowsCapacityLeft);
-                tmpRowsCapacityLeft.set(i, tmpRowsCapacityLeft.get(i) - (reservations.get(indexReservation) + peopleDistance));
+                tmpRowsCapacityLeft.set(i, tmpRowsCapacityLeft.get(i) - (this.reservations.get(indexReservation) + this.peopleDistance));
 
                 // si cette rangée n'est pas déjà utilisée
                 // alors on met à jour les indicateurs dépendants de l'engagement d'une nouvelle rangée
                 if (!rowsUsed.get(i)) {
                     tmpFilledRows += 1;
-                    tmpSumDistance += rowsDistances.get(i);
+                    tmpSumDistance += this.rowsDistances.get(i);
                     tmpRowsUsed.set(i, true);
-                    tmpTotalSeats += rowsOriginalCapacity.get(i);
+                    tmpTotalSeats += this.rowsOriginalCapacity.get(i);
                 }
 
                 // récursivité pour déterminer la meilleure sous-solution après avoir placé le groupe actuel
                 currentSolution = findBestSolutionInRowRepartitionWorker(
-                        peopleDistance,
                         tmpFilledRows,
                         tmpSumDistance,
                         tmpTotalSeats,
-                        filledSeats + reservations.get(indexReservation),
+                        filledSeats + this.reservations.get(indexReservation),
                         totalUnplacedGroups,
                         tmpRowsCapacityLeft,
                         tmpRowsUsed,
-                        rowsOriginalCapacity,
-                        rowsDistances,
-                        reservations,
                         indexReservation + 1
                 );
 

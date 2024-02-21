@@ -272,7 +272,6 @@ public class AlgoEnumTotaleNbRangees extends AbstractAlgo {
         // puis on garde la meilleure solution
 
         // déclaration des variables utilisées dans la boucle
-        int indexBestRow = 0;
         Pair<ArrayList<Integer>, TemporarySolution> bestSolution;
         Pair<ArrayList<Integer>, TemporarySolution> currentSolution;
         ArrayList<Integer> rowsChoices; // rows chosen to place each group

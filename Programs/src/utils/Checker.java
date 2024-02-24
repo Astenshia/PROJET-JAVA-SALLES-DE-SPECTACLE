@@ -8,33 +8,39 @@ import src.persons.PersonsGroup;
 import src.problems.AbstractProblem;
 import src.problems.Problem;
 import src.roomComponents.Row;
+import src.roomComponents.RowGroup;
+import src.roomComponents.Seat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 public class Checker {
 
-    public static void checkValidity(int roomSpecified, int reservationSpecified, AbstractAlgo algoSpecified) {
-        String roomString = String.valueOf(roomSpecified);
-        String reservationString = String.valueOf(reservationSpecified);
-        if (roomSpecified < 10) {
-            roomString = "0" + roomString;
-        }
-        if (reservationSpecified < 10) {
-            reservationString = "0" + reservationString;
-        }
-        Problem testProblem = Parser.createProblem("Salle" + roomString, reservationSpecified);//Room pour tester le problème
+    public static void checkValidity(String resultPath) {
+        resultPath = "Results/" + resultPath;
+        String[] pathSplited = resultPath.split("-");
+        int roomSpecified = Integer.parseInt((pathSplited[1]).substring(1));
+        int reservationSpecified = Integer.parseInt((pathSplited[2]).substring(1));
+        String algoName = (pathSplited[3]);
+        Problem testProblem = Parser.createProblem("Salle" + (pathSplited[1]).substring(1), reservationSpecified);// Room
+                                                                                                                  // pour
+                                                                                                                  // tester
+                                                                                                                  // le
+        // problème
 
         String firstLine = "";
         String lastLine = "";
         List<String> fillingData = new ArrayList<>();
 
         try {
-            String path = "Results/Remplissage-S" + roomString + "-R" + reservationString + "-" + algoSpecified.getClass().getSimpleName() + "-D-09-02-2024.16:49.res";//TODO enlever date
-            File file = new File(path);
+            File file = new File(resultPath);
             Scanner myReader = new Scanner(file);
             firstLine = myReader.nextLine();
             while (myReader.hasNextLine()) {
@@ -42,28 +48,27 @@ public class Checker {
             }
             myReader.close();
 
-
-        } catch (FileNotFoundException e) { //en cas d'erreur sur la lecture
+        } catch (FileNotFoundException e) { // en cas d'erreur sur la lecture
             System.out.println("Could not read data from file.");
             e.printStackTrace();
             System.exit(1);
         }
 
-        lastLine = fillingData.get(fillingData.size() - 1);//nb de personnes non placées
+        lastLine = fillingData.get(fillingData.size() - 1);// nb de personnes non placées
         fillingData.remove(fillingData.size() - 1);
         fillingData.remove(fillingData.size() - 1);
 
-        //On traite les données récupérées et on fait le remplissage.
+        // On traite les données récupérées et on fait le remplissage.
         String[] firstLineSplitted = firstLine.split(" ");
 
         int nbRowUsed = Integer.parseInt(firstLineSplitted[0]);
 
-        String[] fillingRateSplitted = firstLineSplitted[2].split("/");//on peut pas caster "X/Y" directement
+        String[] fillingRateSplitted = firstLineSplitted[2].split("/");// on peut pas caster "X/Y" directement
         int numerator = Integer.parseInt(fillingRateSplitted[0]);
-        int denominator = Integer.parseInt(fillingRateSplitted[1]);
-        //double fillingRate =  numerator / denominator;
+        // int denominator = Integer.parseInt(fillingRateSplitted[1]);
+        // double fillingRate = numerator / denominator;
 
-        int nbNotSeated = Integer.parseInt(lastLine);//todo vérifier que c'est good
+        // int nbNotSeated = Integer.parseInt(lastLine);// todo vérifier que c'est good
 
         try {
             assert (nbRowUsed == fillingData.size());
@@ -72,7 +77,6 @@ public class Checker {
             e.printStackTrace();
             System.exit(1);
         }
-
 
         int nbSeatFilled = 0;
         int numGroup, numRow, nbPerson;
@@ -96,70 +100,78 @@ public class Checker {
                 nbPerson += specGroup.getNbPersons();
                 nbPersonGroup++;
 
-                for (int k = 0; j < specGroup.getNbPersons(); j++) {
+                for (int k = 0; k < specGroup.getNbPersons(); j++) {
                     Person currentP = specGroup.getPersons().get(k);
                     currentRow.getSeats().get(j).setPerson(currentP);
                     currentP.setSeat(currentRow.getSeats().get(j));
                     k++;
                 }
-                j = j + testProblem.getPeopleDistance();
-            }
-            //currentRow = testProblem.getRoom().getRowGroup(numGroup).getRow(numRow);
-            //System.out.println(testProblem.getRoom().toString());
-            //Test de la contrainte P
-            if (oldNumGroup == numGroup) {
-                try {
-                    assert (numRow - oldNumRow > testProblem.getRowDistance());
-                    System.out.println("Distance entre deux rang d'un même groupe respecte les contraintes de remplissage.");
-                } catch (RuntimeException e) {
-                    System.out.println("!!!Distance entre deux rang d'un même groupe ne respecte pas les contraintes de remplissage.!!!");
-                    e.printStackTrace();
-                    System.exit(1);
+                for (int contQ = 0; j < currentRow.getSeats().size()
+                        && contQ < testProblem.getPeopleDistance(); contQ++) {
+                    currentRow.getSeats().get(j).setOutOfOrder(true);
+                    j++;
                 }
             }
+            // currentRow = testProblem.getRoom().getRowGroup(numGroup).getRow(numRow);
+            // System.out.println(testProblem.getRoom().toString());
+            // Test de la contrainte P
+            if (oldNumGroup == numGroup) {
+                if (!(numRow - oldNumRow > testProblem.getRowDistance())) {
+                    throw new RuntimeException(
+                            "\n !!!Nombre de personnes dans un même rang ne respecte pas les contraintes de remplissage.!!!");
+                }
+
+            }
+            for (int p = 0; p < testProblem.getRowDistance()
+                    && p + numRow < testProblem.getRoom().getRowGroup(numGroup - 1).getNbRows(); p++) {
+                currentRow = testProblem.getRoom().getRowGroup(numGroup - 1).getRow(numRow + p);
+                for (Seat s : currentRow.getSeats()) {
+                    s.setOutOfOrder(true);
+                }
+            }
+
+            // test de la contrainte P
+
             oldNumGroup = numGroup;
             oldNumRow = numRow;
 
-            //test de la contrainte Q
-            try {
-                assert (specGroup.getNbPersons() <= testProblem.getMaxGroupSize());
-                System.out.println("Distance entre deux rang d'un même groupe respecte les contraintes de remplissage.");
-            } catch (RuntimeException e) {
-                System.out.println("!!!Distance entre deux rang d'un même groupe ne respecte pas les contraintes de remplissage.!!!");
-                e.printStackTrace();
-                System.exit(1);
+            // test de la contrainte K
+            if (!(specGroup.getNbPersons() <= testProblem.getMaxGroupSize())) {
+                throw new RuntimeException(
+                        "\n !!!Nombre de personnes dans un même rang ne respecte pas les contraintes de remplissage.!!!");
             }
 
-            //test de la contrainte K
-            try {
-                assert (nbPerson + (testProblem.getPeopleDistance() * (nbPersonGroup - 1)) <= currentRow.getCapacity());
-                System.out.println("Nombre de personnes dans un même rang respecte les contraintes de remplissage.");
-
-            } catch (RuntimeException e) {
-                System.out.println("!!!Nombre de personnes dans un même rang ne respecte pas les contraintes de remplissage.!!!");
-                e.printStackTrace();
-                System.exit(1);
+            // test de la contrainte Q
+            if (!(nbPerson + (testProblem.getPeopleDistance() * (nbPersonGroup - 1)) <= currentRow.getCapacity())) {
+                throw new RuntimeException(
+                        "\n !!!Nombre de personnes dans un même rang ne respecte pas les contraintes de remplissage.!!!");
             }
-
-
         }
 
-        try {
-            assert (numerator == nbSeatFilled);
-            System.out.println("Taux de remplissage correct");
-            //assert(denominator == testProblem.getRoom().getNbOfSeats());
-        } catch (RuntimeException e) {
-            System.out.println("Taux de remplissage ne correspond pas aux données de remplissage.");
-            e.printStackTrace();
-            System.exit(1);
+        if (!(numerator == nbSeatFilled)) { // Test du taux de remplissage
+            throw new RuntimeException("\n !!!Taux de remplissage ne correspond pas aux données de remplissage.!!!");
         }
 
+        System.out.println(
+                "### Row Groups de solution : " + testProblem.getName() + " | "
+                        + algoName
+                        + " ###\n");
+        for (RowGroup rowGroup : testProblem.getRoom().getRowGroups()) {
+            System.out.println("\nRow Group:");
+            for (Row row : rowGroup.getRows()) {
+                System.out.println(row.getSeats() + " " + row.getSceneDistance());
+            }
+        }
 
+        System.out
+                .println("\n Toutes les contraintes ont été respectées !!");
     }
 
     public static void main(String[] args) {
 
-        Checker.checkValidity(4, 3, new AlgoHeuristique1());
+        Checker.checkValidity(
+                "Remplissage-S04-R03-AlgoHeuristique1-D2024-02-24T20h06.res");
 
     }
+
 }

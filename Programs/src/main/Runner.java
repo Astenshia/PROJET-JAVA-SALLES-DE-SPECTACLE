@@ -66,7 +66,7 @@ public class Runner {
                 sb.append(String.format("%" + cellSize + "s", solution.getProblem().getName() + " | "));
             }
 
-            sb.append(String.format("%" + cellSize + "s", solution.getRunTimeMilliSeconds() + " ms | "));
+            sb.append(String.format("%" + cellSize + "s", solution.getRunTimeMicroSeconds() + " µs | "));
             count += 1;
 
             if (count == algos.size()) {

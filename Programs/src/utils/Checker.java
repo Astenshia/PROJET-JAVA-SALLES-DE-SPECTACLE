@@ -1,11 +1,7 @@
 package src.utils;
 
-import src.algorithms.AbstractAlgo;
-import src.algorithms.AlgoHeuristique1;
-import src.main.Runner;
 import src.persons.Person;
 import src.persons.PersonsGroup;
-import src.problems.AbstractProblem;
 import src.problems.Problem;
 import src.roomComponents.Row;
 import src.roomComponents.RowGroup;
@@ -13,11 +9,7 @@ import src.roomComponents.Seat;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -26,10 +18,10 @@ public class Checker {
     public static void checkValidity(String resultPath) {
         resultPath = "Results/" + resultPath;
         String[] pathSplited = resultPath.split("-");
-        int roomSpecified = Integer.parseInt((pathSplited[1]).substring(1));
-        int reservationSpecified = Integer.parseInt((pathSplited[2]).substring(1));
-        String algoName = (pathSplited[3]);
-        Problem testProblem = Parser.createProblem("Salle" + (pathSplited[1]).substring(1), reservationSpecified);// Room
+        int roomSpecified = Integer.parseInt((pathSplited[4]).substring(1));
+        int reservationSpecified = Integer.parseInt((pathSplited[5]).substring(1));
+        String algoName = (pathSplited[6].split("\\.")[0]);
+        Problem testProblem = Parser.createProblem("Salle" + (pathSplited[4]).substring(1), reservationSpecified);// Room
                                                                                                                   // pour
                                                                                                                   // tester
                                                                                                                   // le
@@ -164,14 +156,20 @@ public class Checker {
         }
 
         System.out
-                .println("\n Toutes les contraintes ont été respectées !!");
+                .println("\n Toutes les contraintes ont été respectées !");
     }
 
     public static void main(String[] args) {
+<<<<<<< HEAD
 
         Checker.checkValidity(
                 args[0]);
 
+=======
+        // exemple de check pour un fichier en particulier, il faut remplacer par le nom du fichier par le fichier que
+        // l'on souhaite vérifier
+        Checker.checkValidity("2024-02-24T21h58-Remplissage-S01-R01-AlgoHeuristique1.res");
+>>>>>>> b2c3da0cf8105e72451ff88f054f5e93bc938c01
     }
 
 }

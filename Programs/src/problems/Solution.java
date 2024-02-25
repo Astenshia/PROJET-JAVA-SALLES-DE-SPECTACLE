@@ -226,7 +226,7 @@ public class Solution {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH'h'mm");
         String dateStr = sdf.format(date);
 
-        String name = "Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName + "-D" + dateStr;
+        String name = dateStr + "-Remplissage-S" + folderNumber + "-R" + reservation + "-" + algoName;
 
 
         //creation fichier et ecriture

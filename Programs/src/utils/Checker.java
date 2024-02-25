@@ -170,7 +170,7 @@ public class Checker {
     public static void main(String[] args) {
 
         Checker.checkValidity(
-                "Remplissage-S04-R03-AlgoHeuristique1-D2024-02-24T20h06.res");
+                args[0]);
 
     }
 

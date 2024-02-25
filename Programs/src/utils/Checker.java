@@ -160,16 +160,10 @@ public class Checker {
     }
 
     public static void main(String[] args) {
-<<<<<<< HEAD
 
         Checker.checkValidity(
                 args[0]);
 
-=======
-        // exemple de check pour un fichier en particulier, il faut remplacer par le nom du fichier par le fichier que
-        // l'on souhaite vérifier
-        Checker.checkValidity("2024-02-24T21h58-Remplissage-S01-R01-AlgoHeuristique1.res");
->>>>>>> b2c3da0cf8105e72451ff88f054f5e93bc938c01
     }
 
 }
